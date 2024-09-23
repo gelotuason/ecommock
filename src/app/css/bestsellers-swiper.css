@@ -1,0 +1,7 @@
+.swiper-pagination {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    margin-top: 2rem;
+}
