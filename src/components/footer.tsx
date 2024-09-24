@@ -3,7 +3,7 @@ import CategoryLinks from "./category-links";
 import { Mail, Linkedin, Github } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, } from "@/components/ui/accordion";
 
-export default async function Footer() {
+export default function Footer() {
 
     return (
         <footer className="bg-primary text-white px-6 py-4 grid">
