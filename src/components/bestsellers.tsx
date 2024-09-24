@@ -20,7 +20,7 @@ export default function Bestsellers() {
     useEffect(() => {
         async function fetchBestsellers() {
             try {
-                const res = await fetch('https://fakestoreapi.com/products/', { cache: 'force-cache' });
+                const res = await fetch('https://fakestoreapi.com/products/');
                 const data: Products[] = await res.json();
 
                 const filteredProducts = data.filter(product => product.rating.count > 399);

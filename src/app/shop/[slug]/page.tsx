@@ -1,17 +1,17 @@
 import Collections from "@/components/collections";
-import ShopControlBar from "@/components/control-bar";
+import ShopControlBar from "@/components/shop-control-bar";
 import ProductList from "@/components/product-list";
-import { formatSlug } from "@/utils/format-slug";
+import { capitalizeFirstLetter } from "@/utils/format-string";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, } from "@/components/ui/breadcrumb";
 
 export default function ShopCategory({ params }: { params: { slug: string } }) {
-    const title = formatSlug(params.slug.charAt(0).toUpperCase() + params.slug.slice(1));
-    const bg = formatSlug(params.slug).replace(`'`, '').split(' ').join('-')
+    const title = decodeURIComponent(capitalizeFirstLetter(params.slug));
+    const bg = decodeURIComponent(params.slug).replace(`'`, '').split(' ').join('-')
 
     return (
         <main>
             <section
-                className="bg-cover bg-no-repeat h-32 flex flex-col justify-center items-center text-white"
+                className="bg-cover bg-center bg-no-repeat h-32 flex flex-col justify-center items-center text-white/90"
                 style={{
                     backgroundImage: `url('/${bg}.jpg')`,
                 }}
@@ -24,11 +24,11 @@ export default function ShopCategory({ params }: { params: { slug: string } }) {
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbPage>Shop</BreadcrumbPage>
+                            <BreadcrumbLink href="/shop">Shop</BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbPage className="text-white">{title}</BreadcrumbPage>
+                            <BreadcrumbPage className="text-white/90">{title}</BreadcrumbPage>
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>

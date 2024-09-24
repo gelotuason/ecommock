@@ -1,22 +1,19 @@
 import Link from "next/link";
+import CategoryLinks from "./category-links";
 import { Mail, Linkedin, Github } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, } from "@/components/ui/accordion";
-import CategoryLinks from "./category-links";
 
 export default async function Footer() {
-    // TODO: loading and error handling
 
     return (
         <footer className="bg-primary text-white px-6 py-4 grid">
             <Accordion type="single" collapsible>
-                {/* shop highlights */}
                 <AccordionItem className="border-accent" value="item-1">
                     <AccordionTrigger className="text-lg">Shop Highlights</AccordionTrigger>
                     <AccordionContent className="text-accent text-base">
                         <CategoryLinks wrapperClassName="flex flex-col" />
                     </AccordionContent>
                 </AccordionItem>
-                {/* end of shop highlights */}
 
                 <AccordionItem className="border-accent" value="item-2">
                     <AccordionTrigger className="text-lg">Quick links</AccordionTrigger>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { capitalizeFirstLetter } from "@/utils/format-string";
 
 type CategoryLinksProps = {
     wrapperClassName?: string
@@ -12,7 +13,9 @@ export default async function CategoryLinks({ wrapperClassName, linkClassName }:
     return (
         <div className={wrapperClassName}>
             {categoryNames.map((_, index) => (
-                <Link className={linkClassName} href={`/shop/${categoryNames[index]}`}>{categoryNames[index]}</Link>
+                <Link className={linkClassName} href={`/shop/${categoryNames[index]}`}>
+                    {capitalizeFirstLetter(categoryNames[index])}
+                </Link>
             ))}
         </div>
 

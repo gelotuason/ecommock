@@ -22,10 +22,10 @@ export default function Collections() {
                 const tempCollections: Products[] = [];
 
                 const [electronics, jewelery, mens, womens] = await Promise.all([
-                    fetch('https://fakestoreapi.com/products/category/electronics?limit=1', { cache: 'force-cache' }),
-                    fetch('https://fakestoreapi.com/products/category/jewelery?limit=1', { cache: 'force-cache' }),
-                    fetch(`https://fakestoreapi.com/products/category/men's%20clothing?limit=1`, { cache: 'force-cache' }),
-                    fetch(`https://fakestoreapi.com/products/category/women's%20clothing?limit=1`, { cache: 'force-cache' })
+                    fetch('https://fakestoreapi.com/products/category/electronics?limit=1'),
+                    fetch('https://fakestoreapi.com/products/category/jewelery?limit=1'),
+                    fetch(`https://fakestoreapi.com/products/category/men's%20clothing?limit=1`),
+                    fetch(`https://fakestoreapi.com/products/category/women's%20clothing?limit=1`),
                 ]);
 
                 tempCollections.push(

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Products } from "@/lib/types";
-import { formatSlug } from "@/utils/format-slug";
 import { ShoppingCart, Heart, Search } from "lucide-react";
 
 export default async function ProductList({ category }: { category?: string }) {
@@ -16,7 +15,7 @@ export default async function ProductList({ category }: { category?: string }) {
         if (!res.ok) throw new Error('Failed to fetch products');
 
         if (category) {
-            const filteredProducts = data.filter(data => data.category === formatSlug(category));
+            const filteredProducts = data.filter(data => data.category === decodeURIComponent(category));
 
             products = filteredProducts;
         } else {

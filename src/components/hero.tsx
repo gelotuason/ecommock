@@ -17,21 +17,22 @@ type SlidesProps = {
 }
 
 const slides: SlidesProps[] = [
-    { imgSrc: '/slides-img-1.jpg', text: 'Slide 1', credit: 'Kelly Sikkema' },
-    { imgSrc: '/slides-img-2.jpg', text: 'Slide 2', credit: 'Jacob Vega' },
-    { imgSrc: '/slides-img-3.jpg', text: 'Slide 3', credit: 'Joel Muniz' },
-    { imgSrc: '/slides-img-4.jpg', text: 'Slide 3', credit: 'Samuel Dixon' },
+    { imgSrc: '/electronics.jpg', text: 'Slide 1', credit: 'Kelly Sikkema' },
+    { imgSrc: '/jewelery.jpg', text: 'Slide 2', credit: 'Jacob Vega' },
+    { imgSrc: '/mens-clothing.jpg', text: 'Slide 3', credit: 'Joel Muniz' },
+    { imgSrc: '/womens-clothing.jpg', text: 'Slide 3', credit: 'Samuel Dixon' },
 ]
 
 export default function Hero() {
     // TODO: pagination bullet visibility
+    // TODO: add error handling and loading
 
-    const [categoryNames, setCategoryNames] = useState<string[]>([]);
+    const [categoryNames, setCategoryNames] = useState<string[] | null>(null);
 
     useEffect(() => {
         async function fetchCategoryNames() {
             try {
-                const res = await fetch('https://fakestoreapi.com/products/categories', { cache: 'force-cache' });
+                const res = await fetch('https://fakestoreapi.com/products/categories');
                 const data = await res.json();
 
                 setCategoryNames(data);
