@@ -13,7 +13,7 @@ export default async function CategoryLinks({ wrapperClassName, linkClassName }:
     return (
         <div className={wrapperClassName}>
             {categoryNames.map((_, index) => (
-                <Link className={linkClassName} href={`/shop/${categoryNames[index]}`}>
+                <Link key={index} className={linkClassName} href={`/shop/${categoryNames[index]}`}>
                     {capitalizeFirstLetter(categoryNames[index])}
                 </Link>
             ))}
