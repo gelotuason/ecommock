@@ -12,3 +12,8 @@ type Rating = {
     rate: number
     count: number
 }
+
+export type HeroSlidesProps = {
+    imgSrc: string
+    credit: string
+}

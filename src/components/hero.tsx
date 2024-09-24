@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { heroSlides } from '@/lib/data';
 import { useEffect, useState } from 'react';
 import { EffectFade, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -9,19 +10,6 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 import '../app/css/hero-swiper.css';
-
-type SlidesProps = {
-    imgSrc: string
-    text: string
-    credit: string
-}
-
-const slides: SlidesProps[] = [
-    { imgSrc: '/electronics.jpg', text: 'Slide 1', credit: 'Kelly Sikkema' },
-    { imgSrc: '/jewelery.jpg', text: 'Slide 2', credit: 'Jacob Vega' },
-    { imgSrc: '/mens-clothing.jpg', text: 'Slide 3', credit: 'Joel Muniz' },
-    { imgSrc: '/womens-clothing.jpg', text: 'Slide 3', credit: 'Samuel Dixon' },
-]
 
 export default function Hero() {
     // TODO: pagination bullet visibility
@@ -59,7 +47,7 @@ export default function Hero() {
                 }}
                 style={{ height: '500px' }}
             >
-                {slides.map((slide, index) => (
+                {heroSlides.map((slide, index) => (
                     <SwiperSlide
                         key={index}
                         style={{
