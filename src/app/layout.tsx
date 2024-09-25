@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Jost } from 'next/font/google';
-import Nav from "@/components/nav/nav";
+import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 
 const jost = Jost({

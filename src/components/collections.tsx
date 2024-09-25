@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Products } from "@/lib/types";
+import { Product } from "@/lib/types";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import 'swiper/css';
@@ -12,14 +12,15 @@ import '@/app/css/collections-swiper.css';
 
 export default function Collections() {
     // TODO: avoid returning to 1st slide when user clicked or rerendering
-    // TODO: add error handling
+    // TODO: error and loading states
+    // TODO: caching
 
-    const [collections, setCollections] = useState<Products[] | null>(null);
+    const [products, setProducts] = useState<Product[] | null>(null);
 
     useEffect(() => {
         async function fetchCollections() {
             try {
-                const tempCollections: Products[] = [];
+                const tempCollections: Product[] = [];
 
                 const [electronics, jewelery, mens, womens] = await Promise.all([
                     fetch('https://fakestoreapi.com/products/category/electronics?limit=1'),
@@ -35,7 +36,7 @@ export default function Collections() {
                     ...await womens.json(),
                 )
 
-                setCollections(tempCollections);
+                setProducts(tempCollections);
             } catch (err) {
                 console.error(err);
             }
@@ -43,8 +44,6 @@ export default function Collections() {
 
         fetchCollections();
     }, []);
-
-    if (!collections || collections?.length === 0) return <div>Loading...</div>
 
     return (
         <section className="px-4 py-8">
@@ -55,7 +54,7 @@ export default function Collections() {
                 slidesPerView={2}
                 navigation={{ enabled: true }}
             >
-                {collections && collections.map(collection => (
+                {products && products.map(collection => (
                     <SwiperSlide>
                         <div className="text-center">
                             <Link

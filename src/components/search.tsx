@@ -1,19 +1,19 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import CategoryLinks from '../category-links';
+import CategoryLinks from './category-links';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search, X, Star } from 'lucide-react';
+import { SearchIcon, X, Star } from 'lucide-react';
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger, } from "@/components/ui/drawer";
 
-export default function SearchDrawer() {
+export default function Search() {
     // TODO: search functionality
     // TODO: add more results button (when user searched)
 
     return (
         <Drawer direction='top'>
             <DrawerTrigger>
-                <Search strokeWidth={1} />
+                <SearchIcon strokeWidth={1} />
             </DrawerTrigger>
             <DrawerContent className='mt-0 top-0 border-none bg-secondary rounded-none overflow-auto'>
                 <DrawerHeader>
@@ -28,7 +28,7 @@ export default function SearchDrawer() {
                     {/* search input */}
                     <div className='relative'>
                         <Input type='text' className='border-accent p-5' placeholder='Search products' />
-                        <Search strokeWidth={1} className='absolute inset-y-0 right-2 h-full' />
+                        <SearchIcon strokeWidth={1} className='absolute inset-y-0 right-2 h-full' />
                     </div>
                     {/* end of search input */}
 

@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { ShoppingCart, X, Minus, Plus, Trash2, } from 'lucide-react';
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger, } from "@/components/ui/drawer";
 
-export default function CartDrawer() {
+export default function Cart() {
     return (
         <Drawer direction='right'>
             <DrawerTrigger>

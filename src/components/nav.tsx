@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import SearchDrawer from './search-drawer';
-import NavMenu from './nav-menu';
-import CartDrawer from './cart-drawer';
+import Search from '@/components/search';
+import NavMenu from '@/components/nav-menu';
+import Cart from '@/components/cart';
 
 export default function Nav() {
     // TODO: make reusable custom drawer
@@ -13,8 +13,8 @@ export default function Nav() {
             <Link href='/' className='text-xl'>ecommock.</Link>
 
             <div className='flex gap-2'>
-                <SearchDrawer />
-                <CartDrawer />
+                <Search />
+                <Cart />
             </div>
         </nav>
     )
