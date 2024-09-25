@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
-import "./globals.css";
-import { Jost } from 'next/font/google';
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
+import StoreProvider from "./StoreProvider";
+import localFont from "next/font/local";
+import { Jost } from 'next/font/google';
+import type { Metadata } from "next";
+import "./globals.css";
 
 const jost = Jost({
   subsets: ['latin'],
@@ -35,9 +36,11 @@ export default function RootLayout({
       <body
         className={`${jost.className} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Nav />
-        {children}
-        <Footer />
+        <StoreProvider>
+          <Nav />
+          {children}
+          <Footer />
+        </StoreProvider>
       </body>
     </html>
   );
