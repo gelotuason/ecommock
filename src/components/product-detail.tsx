@@ -51,19 +51,22 @@ export default function ProductDetail({ productId }: { productId?: number }) {
             <DialogTrigger className="p-1 hover:bg-black hover:text-white transition-all duration-300">
                 <Search size={20} strokeWidth={1} />
             </DialogTrigger>
-            <DialogContent className="w-5/6 h-5/6 bg-white gap-y-4 overflow-auto">
+            <DialogContent className="max-h-[90%] max-w-[90%] bg-white overflow-auto">
                 <DialogHeader className="sr-only">
                     <DialogTitle className="sr-only">Are you absolutely sure?</DialogTitle>
                     <DialogDescription className="sr-only"></DialogDescription>
                 </DialogHeader>
-                <img src={product?.image} alt={product?.title} className="h-[200px] mx-auto" />
+                <div className="space-y-1">
+                    <img src={product?.image} alt={product?.title} className="h-[200px] mx-auto" />
 
-                <div className="mt-2 px-1 space-y-1 text-sm">
-                    <p className="text-black">${product?.price}</p>
-                    <p className="text-accent">{product?.rating.rate} rating</p>
-                    <p className="text-black font-medium">{product?.title}</p>
-                    <p className="text-accent">{product?.description}</p>
+                    <div className="px-1 space-y-1 text-sm">
+                        <p className="text-black">${product?.price}</p>
+                        <p className="text-accent">{product?.rating.rate} rating</p>
+                        <p className="text-black font-medium">{product?.title}</p>
+                        <p className="text-accent">{product?.description}</p>
+                    </div>
                 </div>
+
                 {/* action bar */}
                 <div className="space-y-5">
                     <div className="flex gap-1">
