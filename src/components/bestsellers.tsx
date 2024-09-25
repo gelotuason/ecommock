@@ -1,9 +1,8 @@
 'use client';
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Products } from "@/lib/types";
-import { ShoppingCart, Heart, Search, ChevronLeft, ChevronRight } from "lucide-react";
+import { Product } from "@/lib/types";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useSwiper } from "swiper/react";
@@ -11,17 +10,21 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import '@/app/css/bestsellers-swiper.css';
+import ProductCard from "./product-card";
 
 export default function Bestsellers() {
     // TODO: swiper nav button disabled on last slide
+    // TODO: error and loading states
 
-    const [bestsellers, setBestsellers] = useState<Products[] | null>(null);
+    const [bestsellers, setBestsellers] = useState<Product[] | null>(null);
 
     useEffect(() => {
         async function fetchBestsellers() {
             try {
                 const res = await fetch('https://fakestoreapi.com/products/');
-                const data: Products[] = await res.json();
+                const data: Product[] = await res.json();
+
+                if (!res.ok) console.error('Failed to fetch data.'); // temporary error handling
 
                 const filteredProducts = data.filter(product => product.rating.count > 399);
 
@@ -33,8 +36,6 @@ export default function Bestsellers() {
 
         fetchBestsellers();
     }, []);
-
-    if (!bestsellers) return <div>Loading..</div>
 
     return (
         <section className="px-3 py-4" >
@@ -49,38 +50,11 @@ export default function Bestsellers() {
                     navigation={{ enabled: false }}
                     pagination={{ clickable: true }}
                 >
-                    {bestsellers.map(bestseller => (
+                    {bestsellers && bestsellers.map((bestseller, index) => (
                         <SwiperSlide key={bestseller.id}>
-                            <Link
-                                href='/'
-                                className="bg-white shadow-sm flex bg-center bg-contain bg-no-repeat h-44"
-                                style={{
-                                    backgroundImage: `url('${bestseller.image}')`,
-                                }}
-                            >
-                                <div className="relative w-max mx-auto flex items-end h-full pb-2">
-                                    <div className="bg-[#f5f5f5] rounded flex items-center divide-x shadow-lg">
-                                        <button className="p-1 hover:bg-black hover:text-white hover:rounded-s transition-all duration-300">
-                                            <ShoppingCart size={20} strokeWidth={1} />
-                                        </button>
-                                        <button className="p-1 hover:bg-black hover:text-white transition-all duration-300">
-                                            <Heart size={20} strokeWidth={1} />
-                                        </button>
-                                        <button className="p-1 hover:bg-black hover:text-white hover:rounded-e transition-all duration-300">
-                                            <Search size={20} strokeWidth={1} />
-                                        </button>
-                                    </div>
-                                </div>
-                            </Link>
-
-                            <div className="px-2 space-y-1 mt-2 text-sm">
-                                <p className="font-medium">{bestseller.price}</p>
-                                <p className="text-accent">{bestseller.category}</p>
-                                <p className="font-semibold">{bestseller.title}</p>
-                            </div>
+                            <ProductCard product={bestsellers[index]} />
                         </SwiperSlide>
                     ))}
-
                     <div
                         slot="container-start"
                         className="flex justify-center gap-2 mb-4">

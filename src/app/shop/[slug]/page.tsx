@@ -1,9 +1,10 @@
 import Collections from "@/components/collections";
 import ShopControlBar from "@/components/shop-control-bar";
-import ProductList from "@/components/product-list";
 import { heroSlides } from "@/lib/data";
 import { capitalizeFirstLetter } from "@/utils/format-string";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, } from "@/components/ui/breadcrumb";
+import { Product } from "@/lib/types";
+import ProductCard from "@/components/product-card";
 
 function getBgSrc(uri: string): string {
     const formattedInput = decodeURIComponent(uri).replace(`'`, '').split(' ').join('-');
@@ -23,10 +24,28 @@ function getBgSrc(uri: string): string {
     return bgSrc;
 }
 
-export default function ShopCategory({ params }: { params: { slug: string } }) {
-    const title = decodeURIComponent(capitalizeFirstLetter(params.slug)); // shop title
+async function getProductsByCategory(categoryName: string) {
+    try {
+        const res = await fetch(`https://fakestoreapi.com/products/category/${categoryName}`);
+        const data: Product[] = await res.json();
 
+        if (!res.ok) throw new Error(`Failed to fetch data. Status: ${res.status}`);
+        if (!data.length) throw new Error(`Failed to fetch data.`);
+
+        return data;
+    } catch (err) {
+        console.error(err);
+        throw new Error('Failed to fetch data.')
+    }
+}
+
+export default async function ShopCategory({ params }: { params: { slug: string } }) {
+    // TODO: error and loading states
+
+    const title = decodeURIComponent(capitalizeFirstLetter(params.slug)); // shop title
     const bgSrc = getBgSrc(params.slug);
+
+    const products: Product[] = await getProductsByCategory(params.slug);
 
     return (
         <main>
@@ -58,7 +77,10 @@ export default function ShopCategory({ params }: { params: { slug: string } }) {
 
             <section className="px-4 py-10">
                 <ShopControlBar />
-                <ProductList category={params.slug} />
+
+                {products && products.map((_, index) => (
+                    <ProductCard key={index} product={products[index]} />
+                ))}
             </section>
         </main>
     )

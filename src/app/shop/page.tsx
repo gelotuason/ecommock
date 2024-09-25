@@ -1,10 +1,28 @@
 import Collections from "@/components/collections";
 import ShopControlBar from "@/components/shop-control-bar";
-import ProductList from "@/components/product-list";
+import ProductCard from "@/components/product-card";
 import { heroSlides } from "@/lib/data";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, } from "@/components/ui/breadcrumb";
+import { Product } from "@/lib/types";
 
-export default function Shop() {
+async function getProducts() {
+    try {
+        const res = await fetch(`https://fakestoreapi.com/products/`);
+        const data: Product[] = await res.json();
+
+        if (!res.ok) throw new Error(`Failed to fetch data. Status: ${res.status}`);
+
+        return data;
+    } catch (err) {
+        console.error(err);
+        throw new Error('Failed to fetch data.')
+    }
+}
+
+export default async function Shop() {
+    // TODO: error and loading states
+
+    const products: Product[] = await getProducts();
 
     return (
         <main>
@@ -34,7 +52,11 @@ export default function Shop() {
             <section className="px-4 py-10">
                 <ShopControlBar />
 
-                <ProductList />
+                <div className="grid grid-cols-2 gap-x-3 gap-y-8 py-8">
+                    {products?.map((_, index) => (
+                        <ProductCard key={index} product={products[index]} />
+                    ))}
+                </div>
             </section>
         </main>
     )
