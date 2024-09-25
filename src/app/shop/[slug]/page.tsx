@@ -78,9 +78,11 @@ export default async function ShopCategory({ params }: { params: { slug: string 
             <section className="px-4 py-10">
                 <ShopControlBar />
 
-                {products && products.map((_, index) => (
-                    <ProductCard key={index} product={products[index]} />
-                ))}
+                <div className="grid grid-cols-2 gap-x-3 gap-y-8 py-8">
+                    {products && products.map((_, index) => (
+                        <ProductCard key={index} product={products[index]} />
+                    ))}
+                </div>
             </section>
         </main>
     )
