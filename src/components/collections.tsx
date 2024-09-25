@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Product } from "@/lib/types";
+import { capitalizeFirstLetter } from "@/utils/format-string";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import 'swiper/css';
@@ -63,7 +64,7 @@ export default function Collections() {
                             >
                                 <img src={collection.image} alt={collection.category} className="h-[100px] w-[60px] mx-auto" />
                             </Link>
-                            <p className="text-lg">{collection.category}</p>
+                            <p className="text-lg">{capitalizeFirstLetter(collection.category)}</p>
                         </div>
                     </SwiperSlide>
                 ))}
