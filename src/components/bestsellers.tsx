@@ -1,5 +1,6 @@
 'use client';
 
+import ProductCard from "./product-card";
 import { useEffect, useState } from "react";
 import { Product } from "@/lib/types";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -10,7 +11,6 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import '@/app/css/bestsellers-swiper.css';
-import ProductCard from "./product-card";
 
 export default function Bestsellers() {
     // TODO: swiper nav button disabled on last slide
@@ -50,9 +50,9 @@ export default function Bestsellers() {
                     navigation={{ enabled: false }}
                     pagination={{ clickable: true }}
                 >
-                    {bestsellers && bestsellers.map((bestseller, index) => (
+                    {bestsellers && bestsellers.map((bestseller) => (
                         <SwiperSlide key={bestseller.id}>
-                            <ProductCard product={bestsellers[index]} />
+                            <ProductCard product={bestseller} />
                         </SwiperSlide>
                     ))}
                     <div
