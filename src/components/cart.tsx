@@ -7,14 +7,15 @@ import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, Dr
 import { useAppSelector } from '@/lib/hooks';
 
 export default function Cart() {
-    // TODO: add cart icon badge
-
     const products = useAppSelector(state => state.cartReducer.products);
 
     return (
         <Drawer direction='right'>
             <DrawerTrigger>
-                <ShoppingCart strokeWidth={1} />
+                <div className='relative'>
+                    <ShoppingCart strokeWidth={1} />
+                    {products && <div className='absolute -top-1 -right-2 rounded-full w-4 bg-black text-white text-xs'>{products.length}</div>}
+                </div>
             </DrawerTrigger>
             <DrawerContent className='h-screen border-none bg-secondary rounded-none'>
                 <DrawerHeader className='flex justify-between items-center'>
