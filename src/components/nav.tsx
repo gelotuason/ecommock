@@ -7,7 +7,7 @@ export default function Nav() {
     // TODO: make reusable custom drawer
 
     return (
-        <nav className='flex justify-between items-center py-2 px-3'>
+        <nav className='flex justify-between items-center px-4 py-3'>
             <NavMenu />
 
             <Link href='/' className='text-xl'>ecommock.</Link>
