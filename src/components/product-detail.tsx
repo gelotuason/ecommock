@@ -16,7 +16,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { useEffect, useState } from "react";
 
 
-export default function ProductDetail({ productId }: { productId?: number }) {
+export default function ProductDetail({ productId }: { productId: number }) {
     // TODO: loading state
     // TODO: improve error state
 
@@ -42,7 +42,7 @@ export default function ProductDetail({ productId }: { productId?: number }) {
         }
 
         getProductById();
-    }, []);
+    }, [productId]);
 
     if (error) return <div>{error}</div>
 

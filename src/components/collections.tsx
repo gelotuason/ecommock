@@ -56,7 +56,7 @@ export default function Collections() {
                 navigation={{ enabled: true }}
             >
                 {products && products.map(collection => (
-                    <SwiperSlide>
+                    <SwiperSlide key={collection.id}>
                         <div className="text-center">
                             <Link
                                 href={`/shop/${collection.category}`}
