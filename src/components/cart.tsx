@@ -11,26 +11,26 @@ export default function Cart() {
 
     return (
         <Drawer direction='right'>
-            <DrawerTrigger>
-                <div className='relative'>
-                    <ShoppingCart strokeWidth={1} />
-                    {products && <div className='absolute -top-1 -right-2 rounded-full w-4 bg-black text-white text-xs'>{products.length}</div>}
-                </div>
+            <DrawerTrigger className='relative'>
+                <ShoppingCart strokeWidth={1} />
+                {products && <small className='absolute -top-1 -right-2 rounded-full w-4 bg-black text-white text-xs'>{products.length}</small>}
             </DrawerTrigger>
             <DrawerContent className='h-screen border-none bg-secondary rounded-none'>
                 <DrawerHeader className='flex justify-between items-center'>
-                    <DrawerTitle className='text-2xl'>Cart (0)</DrawerTitle>
+                    <DrawerTitle className='text-2xl'>Cart {products && `(${products.length})`} </DrawerTitle>
                     <DrawerClose>
                         <X strokeWidth={1} />
                     </DrawerClose>
                 </DrawerHeader>
 
-                <DrawerDescription className='divide-y px-4 overflow-auto'>
+                <DrawerDescription className='sr-only'></DrawerDescription>
+
+                <div className='divide-y px-4 overflow-auto'>
                     {products && products.map(products => {
                         const { product, quantity } = products;
 
                         return (
-                            <div className='flex gap-3 py-2'>
+                            <div key={product.id} className='flex gap-3 py-2'>
                                 <img src={product.image} alt={product.title} className='size-24 my-auto' />
 
                                 {/* cart product details */}
@@ -39,10 +39,11 @@ export default function Cart() {
                                     <p>${product.price}</p>
                                     <div className='relative w-3/4'>
                                         <Input
+                                            name='quantity'
                                             type='number'
                                             className='text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
                                             min={0}
-                                            value={quantity}
+                                        // value={quantity}
                                         />
                                         {/* <div className='absolute inset-y-0 h-full'>test</div> */}
                                         <Button variant='ghost' className='px-3 absolute inset-y-0 left-0'>
@@ -63,7 +64,7 @@ export default function Cart() {
                             </div>
                         )
                     })}
-                </DrawerDescription>
+                </div>
                 <DrawerFooter>
                     <Button variant='outline'>More results</Button>
                     <Button variant='default'>Checkout</Button>
