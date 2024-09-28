@@ -39,8 +39,8 @@ export default function CartDrawer() {
                 <DrawerDescription className='sr-only'></DrawerDescription>
 
                 <div className='divide-y px-4 overflow-auto'>
-                    {products && products.map(products => {
-                        const { product, quantity } = products;
+                    {products && products.map(cartProduct => {
+                        const { product, quantity } = cartProduct;
 
                         return (
                             <div key={product.id} className='flex gap-3 py-2'>
