@@ -2,6 +2,7 @@ import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import StoreProvider from "./StoreProvider";
 import localFont from "next/font/local";
+import { Toaster } from "@/components/ui/toaster"
 import { Jost } from 'next/font/google';
 import type { Metadata } from "next";
 import "./globals.css";
@@ -40,6 +41,7 @@ export default function RootLayout({
           <Nav />
           {children}
           <Footer />
+          <Toaster />
         </StoreProvider>
       </body>
     </html>
