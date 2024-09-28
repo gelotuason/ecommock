@@ -4,9 +4,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ShoppingCart, X, Minus, Plus, Trash2, } from 'lucide-react';
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger, } from "@/components/ui/drawer";
-import { useAppSelector } from '@/lib/hooks';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { removeFromCart, incrementQuantity, decrementQuantity } from '@/lib/features/cart/cartSlice';
 
 export default function Cart() {
+    const dispatch = useAppDispatch();
     const products = useAppSelector(state => state.cartReducer.products);
 
     return (
@@ -40,16 +42,23 @@ export default function Cart() {
                                     <div className='relative w-3/4'>
                                         <Input
                                             name='quantity'
-                                            type='number'
+                                            type='text'
                                             className='text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
-                                            min={0}
-                                        // value={quantity}
+                                            value={quantity}
+                                            disabled
                                         />
-                                        {/* <div className='absolute inset-y-0 h-full'>test</div> */}
-                                        <Button variant='ghost' className='px-3 absolute inset-y-0 left-0'>
+                                        <Button
+                                            variant='ghost'
+                                            className='px-3 absolute inset-y-0 left-0'
+                                            onClick={() => dispatch(decrementQuantity(product.id))}
+                                        >
                                             <Minus size={12} strokeWidth={1} />
                                         </Button>
-                                        <Button variant='ghost' className='px-3 absolute inset-y-0 right-0'>
+                                        <Button
+                                            variant='ghost'
+                                            className='px-3 absolute inset-y-0 right-0'
+                                            onClick={() => dispatch(incrementQuantity(product.id))}
+                                        >
                                             <Plus size={12} strokeWidth={1} />
                                         </Button>
                                     </div>
@@ -57,7 +66,12 @@ export default function Cart() {
                                 {/* end of cart product details */}
 
                                 {/* delete cart product button */}
-                                <Button variant='ghost' size='icon' className='w-max h-max px-1 py-1'>
+                                <Button
+                                    variant='ghost'
+                                    size='icon'
+                                    className='w-max h-max px-1 py-1'
+                                    onClick={() => dispatch(removeFromCart(product.id))}
+                                >
                                     <Trash2 size={16} strokeWidth={1} />
                                 </Button>
                                 {/* end of delete cart product button */}
