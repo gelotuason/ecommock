@@ -1,15 +1,26 @@
 'use client';
 
+import Alert from '@/components/cart/alert';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Product } from '@/lib/types';
 import { ShoppingCart, X, Minus, Plus, Trash2, } from 'lucide-react';
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger, } from "@/components/ui/drawer";
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { removeFromCart, incrementQuantity, decrementQuantity } from '@/lib/features/cart/cartSlice';
+import { incrementQty, decrementQty, setAlert } from '@/lib/features/cart/cartSlice';
 
-export default function Cart() {
+export default function CartDrawer() {
+    // TODO: remove alert if user decrement equal to 0
+
     const dispatch = useAppDispatch();
-    const products = useAppSelector(state => state.cartReducer.products);
+    const { products } = useAppSelector(state => state.cartReducer);
+
+    const handleRemove = (product: Product) => {
+        dispatch(setAlert({
+            productName: product.title,
+            productId: product.id
+        }));
+    }
 
     return (
         <Drawer direction='right'>
@@ -19,7 +30,7 @@ export default function Cart() {
             </DrawerTrigger>
             <DrawerContent className='h-screen border-none bg-secondary rounded-none'>
                 <DrawerHeader className='flex justify-between items-center'>
-                    <DrawerTitle className='text-2xl'>Cart {products && `(${products.length})`} </DrawerTitle>
+                    <DrawerTitle className='text-2xl'>Cart {`(${products.length})`} </DrawerTitle>
                     <DrawerClose>
                         <X strokeWidth={1} />
                     </DrawerClose>
@@ -33,11 +44,11 @@ export default function Cart() {
 
                         return (
                             <div key={product.id} className='flex gap-3 py-2'>
+                                {/* cart product listing */}
                                 <img src={product.image} alt={product.title} className='size-24 my-auto' />
 
-                                {/* cart product details */}
                                 <div className='flex-1 space-y-1'>
-                                    <p className='text-black'>{product.title}</p>
+                                    <p className='font-semibold'>{product.title}</p>
                                     <p>${product.price}</p>
                                     <div className='relative w-3/4'>
                                         <Input
@@ -45,40 +56,43 @@ export default function Cart() {
                                             type='text'
                                             className='text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
                                             value={quantity}
-                                            disabled
+                                            readOnly
                                         />
                                         <Button
                                             variant='ghost'
                                             className='px-3 absolute inset-y-0 left-0'
-                                            onClick={() => dispatch(decrementQuantity(product.id))}
+                                            onClick={() => dispatch(decrementQty(product.id))}
                                         >
                                             <Minus size={12} strokeWidth={1} />
                                         </Button>
                                         <Button
                                             variant='ghost'
                                             className='px-3 absolute inset-y-0 right-0'
-                                            onClick={() => dispatch(incrementQuantity(product.id))}
+                                            onClick={() => dispatch(incrementQty(product.id))}
                                         >
                                             <Plus size={12} strokeWidth={1} />
                                         </Button>
                                     </div>
                                 </div>
-                                {/* end of cart product details */}
+                                {/* end of cart product listing */}
 
-                                {/* delete cart product button */}
+                                {/* remove cart product */}
                                 <Button
                                     variant='ghost'
                                     size='icon'
                                     className='w-max h-max px-1 py-1'
-                                    onClick={() => dispatch(removeFromCart(product.id))}
+                                    onClick={() => handleRemove(product)}
                                 >
                                     <Trash2 size={16} strokeWidth={1} />
                                 </Button>
-                                {/* end of delete cart product button */}
+                                {/* end of remove cart product */}
                             </div>
                         )
                     })}
                 </div>
+
+                <Alert />
+
                 <DrawerFooter>
                     <Button variant='outline'>More results</Button>
                     <Button variant='default'>Checkout</Button>

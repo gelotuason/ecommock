@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Search from '@/components/search';
 import NavMenu from '@/components/nav-menu';
-import Cart from '@/components/cart';
+import CartDrawer from '@/components/cart/cart-drawer';
 
 export default function Nav() {
     // TODO: make reusable custom drawer
@@ -14,7 +14,7 @@ export default function Nav() {
 
             <div className='flex gap-2'>
                 <Search />
-                <Cart />
+                <CartDrawer />
             </div>
         </nav>
     )
