@@ -42,6 +42,8 @@ const initialState: CartState = {
 // 	}
 // });
 
+// TODO: change toast to shadcn toast component
+
 const cartSlice = createSlice({
 	name: 'cart',
 	initialState,
