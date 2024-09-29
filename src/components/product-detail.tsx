@@ -12,39 +12,12 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox"
-import { useEffect, useState } from "react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useAppDispatch } from "@/lib/hooks";
+import { addToCart } from "@/lib/features/cart/cartSlice";
 
-
-export default function ProductDetail({ productId }: { productId: number }) {
-    // TODO: loading state
-    // TODO: improve error state
-
-    const [product, setProduct] = useState<Product | null>(null);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        async function getProductById() {
-            try {
-                const res = await fetch(`https://fakestoreapi.com/products/${productId}`);
-                const data = await res.json();
-
-                if (!res.ok) throw new Error('Failed to fetch product.');
-
-                setProduct(data);
-            } catch (err) {
-                if (err instanceof Error) {
-                    setError(err.message);
-                }
-
-                console.error(err);
-            }
-        }
-
-        getProductById();
-    }, [productId]);
-
-    if (error) return <div>{error}</div>
+export default function ProductDetail({ product }: { product: Product }) {
+    const dispatch = useAppDispatch();
 
     return (
         <Dialog>
@@ -57,13 +30,13 @@ export default function ProductDetail({ productId }: { productId: number }) {
                     <DialogDescription className="sr-only"></DialogDescription>
                 </DialogHeader>
                 <div className="space-y-1">
-                    <img src={product?.image} alt={product?.title} className="h-[200px] mx-auto" />
+                    <img src={product.image} alt={product.title} className="h-[200px] mx-auto" />
 
                     <div className="px-1 space-y-1 text-sm">
-                        <p className="text-black">${product?.price}</p>
-                        <p className="text-accent">{product?.rating.rate} rating</p>
-                        <p className="text-black font-medium">{product?.title}</p>
-                        <p className="text-accent">{product?.description}</p>
+                        <p className="text-black">${product.price}</p>
+                        <p className="text-accent">{product.rating.rate} rating</p>
+                        <p className="text-black font-medium">{product.title}</p>
+                        <p className="text-accent">{product.description}</p>
                     </div>
                 </div>
 
@@ -83,7 +56,12 @@ export default function ProductDetail({ productId }: { productId: number }) {
                         {/* end of set quantity */}
 
                         {/* add to cart */}
-                        <Button size='icon' variant='ghost' className="px-2">
+                        <Button
+                            size='icon'
+                            variant='ghost'
+                            className="px-2"
+                            onClick={() => dispatch(addToCart({ product, quantity: 1 }))}
+                        >
                             <ShoppingCart strokeWidth={1} />
                         </Button>
                         {/* end of add to cart */}
