@@ -7,6 +7,8 @@ import { useAppDispatch } from "@/lib/hooks";
 import { addToCart } from "@/lib/features/cart/cartSlice";
 
 export default function ProductCard({ product }: { product: Product }) {
+    // TODO: try to use shadcn button to action buttons
+
     const dispatch = useAppDispatch();
 
     return (
@@ -22,7 +24,7 @@ export default function ProductCard({ product }: { product: Product }) {
                             <Heart size={20} strokeWidth={1} />
                         </button>
 
-                        <ProductDetail productId={product.id} />
+                        <ProductDetail product={product} />
                     </div>
                 </div>
             </div>
