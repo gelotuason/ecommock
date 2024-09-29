@@ -1,16 +1,22 @@
 'use client';
 
 import Alert from '@/components/cart/alert';
+import { Dispatch, SetStateAction } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Product } from '@/lib/types';
-import { ShoppingCart, X, Minus, Plus, Trash2, } from 'lucide-react';
+import { X, Minus, Plus, Trash2, } from 'lucide-react';
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger, } from "@/components/ui/drawer";
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { incrementQty, decrementQty, setAlert } from '@/lib/features/cart/cartSlice';
 
-export default function CartDrawer() {
-    // TODO: remove alert if user decrement equal to 0
+type CartDrawerProps = {
+    isOpen: boolean
+    setIsOpen: Dispatch<SetStateAction<boolean>>
+}
+
+export default function CartDrawer({ isOpen, setIsOpen }: CartDrawerProps) {
+    // TODO: make cart item component
 
     const dispatch = useAppDispatch();
     const { products } = useAppSelector(state => state.cartReducer);
@@ -23,11 +29,7 @@ export default function CartDrawer() {
     }
 
     return (
-        <Drawer direction='right'>
-            <DrawerTrigger className='relative'>
-                <ShoppingCart strokeWidth={1} />
-                {products && <small className='absolute -top-1 -right-2 rounded-full w-4 bg-black text-white text-xs'>{products.length}</small>}
-            </DrawerTrigger>
+        <Drawer open={isOpen} onOpenChange={setIsOpen} direction='right'>
             <DrawerContent className='h-screen border-none bg-secondary rounded-none'>
                 <DrawerHeader className='flex justify-between items-center'>
                     <DrawerTitle className='text-2xl'>Cart {`(${products.length})`} </DrawerTitle>

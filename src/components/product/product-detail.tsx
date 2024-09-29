@@ -2,14 +2,7 @@
 
 import { Product } from "@/lib/types";
 import { Heart, Minus, Plus, Search, ShoppingCart } from "lucide-react";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -26,7 +19,7 @@ export default function ProductDetail({ product }: { product: Product }) {
             </DialogTrigger>
             <DialogContent className="max-h-[90%] max-w-[90%] bg-white overflow-auto">
                 <DialogHeader className="sr-only">
-                    <DialogTitle className="sr-only">Are you absolutely sure?</DialogTitle>
+                    <DialogTitle className="sr-only"></DialogTitle>
                     <DialogDescription className="sr-only"></DialogDescription>
                 </DialogHeader>
                 <div className="space-y-1">

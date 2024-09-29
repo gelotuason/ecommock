@@ -1,21 +1,22 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import CategoryLinks from './category-links';
+import CategoryLinks from '../category-links';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { SearchIcon, X, Star } from 'lucide-react';
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger, } from "@/components/ui/drawer";
 
-export default function Search() {
+type SearchDrawerProps = {
+	isOpen: boolean
+	setIsOpen: () => void
+}
+
+export default function SearchDrawer({ isOpen, setIsOpen }: SearchDrawerProps) {
 	// TODO: search functionality
 	// TODO: add more results button (when user searched)
-	// TODO: open state
 
 	return (
-		<Drawer direction='top'>
-			<DrawerTrigger>
-				<SearchIcon strokeWidth={1} />
-			</DrawerTrigger>
+		<Drawer open={isOpen} onOpenChange={setIsOpen} direction='top'>
 			<DrawerContent className='mt-0 top-0 border-none bg-secondary rounded-none overflow-auto'>
 				<DrawerHeader>
 					<div className='relative'>
@@ -36,7 +37,7 @@ export default function Search() {
 					{/* quick search categories */}
 					<div className='space-y-1'>
 						<p className='text-lg'>Quick Search:</p>
-						<CategoryLinks wrapperClassName='divide-x-2' linkClassName='px-1' />
+						{/* <CategoryLinks wrapperClassName='divide-x-2' linkClassName='px-1' /> */}
 					</div>
 					{/* end of quick search categories */}
 

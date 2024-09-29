@@ -1,6 +1,6 @@
 import Collections from "@/components/collections";
 import ShopControlBar from "@/components/shop-control-bar";
-import ProductCard from "@/components/product-card";
+import ProductCard from "@/components/product/product-card";
 import { heroSlides } from "@/lib/data";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, } from "@/components/ui/breadcrumb";
 import { Product } from "@/lib/types";

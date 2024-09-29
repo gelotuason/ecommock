@@ -1,8 +1,8 @@
-import Nav from "@/components/nav";
+import Nav from "@/components/nav/nav";
 import Footer from "@/components/footer";
 import StoreProvider from "./StoreProvider";
 import localFont from "next/font/local";
-import { Toaster } from "@/components/ui/toaster"
+import { Toaster } from 'react-hot-toast';
 import { Jost } from 'next/font/google';
 import type { Metadata } from "next";
 import "./globals.css";
