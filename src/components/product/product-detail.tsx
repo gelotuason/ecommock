@@ -1,5 +1,6 @@
 'use client';
 
+import { Dispatch, SetStateAction } from "react";
 import { Product } from "@/lib/types";
 import { Heart, Minus, Plus, Search, ShoppingCart } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -9,14 +10,17 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useAppDispatch } from "@/lib/hooks";
 import { addToCart } from "@/lib/features/cart/cartSlice";
 
-export default function ProductDetail({ product }: { product: Product }) {
+type ProductDetailProps = {
+    open: boolean
+    onOpenChange: Dispatch<SetStateAction<boolean>>
+    product: Product
+}
+
+export default function ProductDetail({ open, onOpenChange, product }: ProductDetailProps) {
     const dispatch = useAppDispatch();
 
     return (
-        <Dialog>
-            <DialogTrigger className="p-1 hover:bg-black hover:text-white transition-all duration-300">
-                <Search size={20} strokeWidth={1} />
-            </DialogTrigger>
+        <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="max-h-[90%] max-w-[90%] bg-white overflow-auto">
                 <DialogHeader className="sr-only">
                     <DialogTitle className="sr-only"></DialogTitle>

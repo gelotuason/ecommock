@@ -5,17 +5,14 @@ import { Input } from '@/components/ui/input';
 import { Product } from '@/lib/types';
 import { Minus, Plus, Trash2, } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { incrementQty, decrementQty, setAlert } from '@/lib/features/cart/cartSlice';
+import { incrementQty, decrementQty, setRemoveAlert } from '@/lib/features/cart/cartSlice';
 
 export default function CartProducts() {
     const dispatch = useAppDispatch();
     const { products } = useAppSelector(state => state.cartReducer);
 
     const handleRemove = (product: Product) => {
-        dispatch(setAlert({
-            productName: product.title,
-            productId: product.id
-        }));
+        dispatch(setRemoveAlert({ productId: product.id, productName: product.title }));
     }
 
     return (

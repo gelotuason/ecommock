@@ -7,7 +7,7 @@ import { removeFromCart, clearAlert } from "@/lib/features/cart/cartSlice";
 
 export default function Alert() {
   const dispatch = useAppDispatch();
-  const { productName, productId } = useAppSelector(state => state.cartReducer.alert);
+  const { productId, productName } = useAppSelector(state => state.cartReducer.alerts.remove);
 
   const handleContinue = () => {
     if (productId) dispatch(removeFromCart(productId))
@@ -24,7 +24,7 @@ export default function Alert() {
       <AlertDialogContent className="w-3/4">
         <AlertDialogHeader>
           <AlertDialogTitle className="font-normal">Do you want to remove <strong>{productName}</strong> from your cart?</AlertDialogTitle>
-          <AlertDialogDescription className="sr-only">{productName}</AlertDialogDescription>
+          <AlertDialogDescription className="sr-only"></AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={() => handleCancel()}>Cancel</AlertDialogCancel>

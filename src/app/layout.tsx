@@ -2,7 +2,7 @@ import Nav from "@/components/nav/nav";
 import Footer from "@/components/footer";
 import StoreProvider from "./StoreProvider";
 import localFont from "next/font/local";
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from "@/components/ui/toaster"
 import { Jost } from 'next/font/google';
 import type { Metadata } from "next";
 import "./globals.css";

@@ -1,29 +1,33 @@
 import { Product } from '@/lib/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import toast from 'react-hot-toast';
 
 type CartProduct = {
 	product: Product
 	quantity: number
 }
 
-type AlertState = {
-	productName: string | null
+type RemoveAlert = {
 	productId: number | null
+	productName: string | null
+}
+
+type AlertsState = {
+	remove: RemoveAlert
+	added: string | null
 }
 
 type CartState = {
 	// userId: number | null
 	products: CartProduct[]
-	alert: AlertState
+	alerts: AlertsState
 }
 
 const initialState: CartState = {
 	// userId: null,
 	products: [],
-	alert: {
-		productName: null,
-		productId: null,
+	alerts: {
+		remove: { productId: null, productName: null },
+		added: null,
 	}
 }
 
@@ -42,8 +46,6 @@ const initialState: CartState = {
 // 	}
 // });
 
-// TODO: change toast to shadcn toast component
-
 const cartSlice = createSlice({
 	name: 'cart',
 	initialState,
@@ -53,9 +55,9 @@ const cartSlice = createSlice({
 
 			if (existingProduct === -1) {
 				state.products.push(action.payload);
-				toast.success('Successfully added to cart')
+				state.alerts.added = '✅ Successfully added to cart';
 			} else {
-				toast('Item already in the cart.')
+				state.alerts.added = 'Item already in the cart.';
 			}
 		},
 		removeFromCart: (state, action: PayloadAction<number>) => {
@@ -73,24 +75,25 @@ const cartSlice = createSlice({
 
 			if (product) {
 				if (product.quantity === 1) {
-					state.alert = {
+					state.alerts.remove = {
+						productId: product.product.id,
 						productName: product.product.title,
-						productId: product.product.id
 					}
 				} else {
-					product.quantity -= 1
+					product.quantity -= 1;
 				}
 			}
 		},
-		setAlert: (state, action: PayloadAction<AlertState>) => {
-			state.alert = action.payload;
+		setRemoveAlert: (state, action: PayloadAction<RemoveAlert>) => {
+			state.alerts.remove = action.payload;
 		},
 		clearAlert: (state) => {
-			state.alert = { productName: null, productId: null };
+			state.alerts.remove = { productId: null, productName: null }
+			state.alerts.added = null;
 		}
 	},
 });
 
-export const { addToCart, removeFromCart, incrementQty, decrementQty, setAlert, clearAlert } = cartSlice.actions;
+export const { addToCart, removeFromCart, incrementQty, decrementQty, setRemoveAlert, clearAlert } = cartSlice.actions;
 
 export default cartSlice.reducer;
