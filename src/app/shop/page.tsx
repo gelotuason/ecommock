@@ -1,7 +1,7 @@
 import Collections from "@/components/collections";
 import ShopControlBar from "@/components/shop-control-bar";
 import ProductCard from "@/components/product/product-card";
-import { heroSlides } from "@/lib/data";
+import { categoriesStaticData } from "@/lib/static";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, } from "@/components/ui/breadcrumb";
 import { Product } from "@/lib/types";
 
@@ -29,7 +29,7 @@ export default async function Shop() {
             <section
                 className="bg-cover bg-no-repeat bg-center h-32 flex flex-col justify-center items-center text-white relative"
                 style={{
-                    backgroundImage: `url('${heroSlides[4].imgSrc}')`,
+                    backgroundImage: `url('${categoriesStaticData[4].imgSrc}')`,
                 }}
             >
                 <h1 className="font-semibold text-3xl">Shop</h1>
@@ -44,7 +44,7 @@ export default async function Shop() {
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>
-                <small className='text-white/60 font-light bottom-1 right-1 absolute'>Photo by {heroSlides[4].credit} on Unsplash.</small>
+                <small className='text-white/60 font-light bottom-1 right-1 absolute'>Photo by {categoriesStaticData[4].credit} on Unsplash.</small>
             </section>
 
             <Collections />

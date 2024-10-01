@@ -1,6 +1,6 @@
-import { HeroSlidesProps } from "@/lib/types";
+import { CategoryImagesProps } from "@/lib/types";
 
-export const heroSlides: HeroSlidesProps[] = [
+export const categoryImages: CategoryImagesProps[] = [
     { imgSrc: '/electronics.jpg', credit: 'Kelly Sikkema' },
     { imgSrc: '/jewelery.jpg', credit: 'Jacob Vega' },
     { imgSrc: '/mens-clothing.jpg', credit: 'Joel Muniz' },

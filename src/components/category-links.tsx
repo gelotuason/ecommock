@@ -1,23 +1,35 @@
 import Link from "next/link";
+import { getCategories } from "@/lib/api/products";
 import { capitalizeFirstLetter } from "@/utils/format-string";
+import { useEffect, useState } from "react";
 
 type CategoryLinksProps = {
     wrapperClassName?: string
     linkClassName?: string
 }
 
-export default async function CategoryLinks({ wrapperClassName, linkClassName }: CategoryLinksProps) {
-    const res = await fetch('https://fakestoreapi.com/products/categories', { cache: 'force-cache' });
-    const categoryNames: string[] = await res.json();
+// TODO: return cached component
+
+export default function CategoryLinks({ wrapperClassName, linkClassName }: CategoryLinksProps) {
+    const [categories, setCategories] = useState<string[]>([])
+
+    useEffect(() => {
+        async function fetchCategories() {
+            const fetchedCategories = await getCategories();
+
+            if (fetchedCategories) setCategories(fetchedCategories);
+        }
+
+        fetchCategories();
+    }, [])
 
     return (
         <div className={wrapperClassName}>
-            {categoryNames.map((_, index) => (
-                <Link key={index} className={linkClassName} href={`/shop/${categoryNames[index]}`}>
-                    {capitalizeFirstLetter(categoryNames[index])}
+            {categories.map((category, index) => (
+                <Link key={index} className={linkClassName} href={`/shop/${category}`}>
+                    {capitalizeFirstLetter(category)}
                 </Link>
             ))}
         </div>
-
     )
 }

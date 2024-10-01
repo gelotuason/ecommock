@@ -13,7 +13,7 @@ type Rating = {
     count: number
 }
 
-export type HeroSlidesProps = {
+export type CategoryImagesProps = {
     imgSrc: string
     credit: string
 }

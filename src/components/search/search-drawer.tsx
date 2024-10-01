@@ -14,6 +14,7 @@ type SearchDrawerProps = {
 export default function SearchDrawer({ isOpen, setIsOpen }: SearchDrawerProps) {
 	// TODO: search functionality
 	// TODO: add more results button (when user searched)
+	// TODO: add searched product listing
 
 	return (
 		<Drawer open={isOpen} onOpenChange={setIsOpen} direction='top'>
@@ -26,7 +27,8 @@ export default function SearchDrawer({ isOpen, setIsOpen }: SearchDrawerProps) {
 						</DrawerClose>
 					</div>
 				</DrawerHeader>
-				<DrawerDescription className='space-y-4 px-4 text-center py-2'>
+				<DrawerDescription className='sr-only'></DrawerDescription>
+				<div className='space-y-4 px-4 text-center py-2'>
 					{/* search input */}
 					<div className='relative'>
 						<Input type='text' className='border-accent p-5' placeholder='Search products' />
@@ -37,7 +39,7 @@ export default function SearchDrawer({ isOpen, setIsOpen }: SearchDrawerProps) {
 					{/* quick search categories */}
 					<div className='space-y-1'>
 						<p className='text-lg'>Quick Search:</p>
-						{/* <CategoryLinks wrapperClassName='divide-x-2' linkClassName='px-1' /> */}
+						<CategoryLinks wrapperClassName='divide-x-2' linkClassName='px-2 text-sm' />
 					</div>
 					{/* end of quick search categories */}
 
@@ -64,8 +66,8 @@ export default function SearchDrawer({ isOpen, setIsOpen }: SearchDrawerProps) {
 							<div>
 								<p className="text-lg">title</p>
 								<div className="flex justify-center">
-									{Array.from({ length: 5 }).map(star => (
-										<Star fill="black" size={16} />
+									{Array.from({ length: 5 }).map((_, index) => (
+										<Star key={index} fill="black" size={16} />
 									))}
 								</div>
 								<p className="text-lg">$36.00</p>
@@ -74,11 +76,11 @@ export default function SearchDrawer({ isOpen, setIsOpen }: SearchDrawerProps) {
 						</div>
 						{/* end of product 1 */}
 					</div>
-				</DrawerDescription>
+				</div>
 				<DrawerFooter className='sr-only'>
 					<Button>Submit</Button>
 				</DrawerFooter>
 			</DrawerContent>
-		</Drawer>
+		</Drawer >
 	)
 }

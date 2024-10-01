@@ -1,17 +1,30 @@
 import Link from "next/link";
-import CategoryLinks from "./category-links";
+import { getCategories } from "@/lib/api/products";
+import { capitalizeFirstLetter } from "@/utils/format-string";
 import { Mail, Linkedin, Github } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, } from "@/components/ui/accordion";
 
-export default function Footer() {
+async function fetchCategories() {
+    const fetchedCategories = await getCategories();
+
+    if (fetchedCategories) return fetchedCategories;
+    else return [];
+}
+
+export default async function Footer() {
+    const categories = await fetchCategories();
 
     return (
         <footer className="bg-primary text-white px-6 py-4 grid">
             <Accordion type="single" collapsible>
                 <AccordionItem className="border-accent" value="item-1">
                     <AccordionTrigger className="text-lg">Shop Highlights</AccordionTrigger>
-                    <AccordionContent className="text-accent text-base">
-                        <CategoryLinks wrapperClassName="flex flex-col" />
+                    <AccordionContent className="text-accent text-base flex flex-col">
+                        {categories && categories.map((category, index) => (
+                            <Link key={index} href={`/shop/${category}`}>
+                                {capitalizeFirstLetter(category)}
+                            </Link>
+                        ))}
                     </AccordionContent>
                 </AccordionItem>
 
