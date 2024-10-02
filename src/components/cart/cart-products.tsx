@@ -2,18 +2,13 @@
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Product } from '@/lib/types';
 import { Minus, Plus, Trash2, } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { incrementQty, decrementQty, setRemoveAlert } from '@/lib/features/cart/cartSlice';
+import { incrementQty, decrementQty, setAlert } from '@/lib/features/cart/cartSlice';
 
 export default function CartProducts() {
-    const dispatch = useAppDispatch();
     const { products } = useAppSelector(state => state.cartReducer);
-
-    const handleRemove = (product: Product) => {
-        dispatch(setRemoveAlert({ productId: product.id, productName: product.title }));
-    }
+    const dispatch = useAppDispatch();
 
     return (
         <div className='divide-y px-4 overflow-auto'>
@@ -52,16 +47,15 @@ export default function CartProducts() {
                             </div>
                         </div>
 
-                        {/* remove cart item */}
+                        {/* remove button - displays confirmation first */}
                         <Button
                             variant='ghost'
                             size='icon'
                             className='w-max h-max px-1 py-1'
-                            onClick={() => handleRemove(product)}
+                            onClick={() => dispatch(setAlert({ type: 'confirmation', productId: product.id, productName: product.title }))}
                         >
                             <Trash2 size={16} strokeWidth={1} />
                         </Button>
-                        {/* end of remove cart item */}
                     </div>
                 )
             })}

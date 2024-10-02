@@ -1,6 +1,7 @@
 import Nav from "@/components/nav/nav";
 import Footer from "@/components/footer";
 import StoreProvider from "./StoreProvider";
+import ToastWrapper from "./ToastWrapper";
 import localFont from "next/font/local";
 import { Toaster } from "@/components/ui/toaster"
 import { Jost } from 'next/font/google';
@@ -38,10 +39,12 @@ export default function RootLayout({
         className={`${jost.className} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <StoreProvider>
-          <Nav />
-          {children}
-          <Footer />
-          <Toaster />
+          <ToastWrapper>
+            <Nav />
+            {children}
+            <Footer />
+            <Toaster />
+          </ToastWrapper>
         </StoreProvider>
       </body>
     </html>

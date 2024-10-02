@@ -3,28 +3,14 @@
 import ProductDetail from "./product-detail";
 import { ShoppingCart, Heart, Search } from "lucide-react";
 import { Product } from "@/lib/types";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { addToCart, clearAlert } from "@/lib/features/cart/cartSlice";
-import { useToast } from "@/hooks/use-toast";
-import { useEffect, useState } from "react";
+import { useAppDispatch } from "@/lib/hooks";
+import { addToCart } from "@/lib/features/cart/cartSlice";
+import { useState } from "react";
 
 export default function ProductCard({ product }: { product: Product }) {
     const [productDetailDialog, toggleProductDetailDialog] = useState(false);
 
     const dispatch = useAppDispatch();
-    const toastMessage = useAppSelector(state => state.cartReducer.alerts.added);
-    const { toast } = useToast();
-
-    useEffect(() => {
-        const displayToast = () => {
-            if (toastMessage) {
-                toast({ title: toastMessage, duration: 3000 });
-                dispatch(clearAlert());
-            }
-        }
-
-        displayToast();
-    }, [toastMessage])
 
     return (
         <div>

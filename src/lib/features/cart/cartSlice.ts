@@ -6,28 +6,29 @@ type CartProduct = {
 	quantity: number
 }
 
-type RemoveAlert = {
-	productId: number | null
-	productName: string | null
-}
+type Alert = 'add' | 'remove' | 'confirmation' | null
 
-type AlertsState = {
-	remove: RemoveAlert
-	added: string | null
+type AlertState = {
+	type: Alert
+	message?: string | null
+	productId?: number | null
+	productName?: string | null
 }
 
 type CartState = {
 	// userId: number | null
 	products: CartProduct[]
-	alerts: AlertsState
+	alert: AlertState
 }
 
 const initialState: CartState = {
 	// userId: null,
 	products: [],
-	alerts: {
-		remove: { productId: null, productName: null },
-		added: null,
+	alert: {
+		type: null,
+		message: null,
+		productId: null,
+		productName: null,
 	}
 }
 
@@ -55,15 +56,32 @@ const cartSlice = createSlice({
 
 			if (existingProduct === -1) {
 				state.products.push(action.payload);
-				state.alerts.added = '✅ Successfully added to cart';
+				state.alert = {
+					type: 'add',
+					message: 'Successfully added to cart ✅',
+					productName: action.payload.product.title
+				};
 			} else {
-				state.alerts.added = 'Item already in the cart.';
+				state.alert = {
+					type: 'add',
+					message: 'Item already in the cart',
+					productName: action.payload.product.title
+				};
 			}
 		},
 		removeFromCart: (state, action: PayloadAction<number>) => {
+			const selectedProduct = state.products.find(product => product.product.id === action.payload);
 			const updatedCartProducts = state.products.filter(product => product.product.id !== action.payload);
 
-			state.products = updatedCartProducts;
+			if (updatedCartProducts && selectedProduct) {
+				state.products = updatedCartProducts;
+				state.alert = {
+					type: 'remove',
+					message: 'Removed from cart ⛔',
+					productName: selectedProduct.product.title
+				}
+			}
+
 		},
 		incrementQty: (state, action: PayloadAction<number>) => {
 			const product = state.products.find(product => product.product.id === action.payload);
@@ -75,7 +93,8 @@ const cartSlice = createSlice({
 
 			if (product) {
 				if (product.quantity === 1) {
-					state.alerts.remove = {
+					state.alert = {
+						type: 'confirmation',
 						productId: product.product.id,
 						productName: product.product.title,
 					}
@@ -84,16 +103,20 @@ const cartSlice = createSlice({
 				}
 			}
 		},
-		setRemoveAlert: (state, action: PayloadAction<RemoveAlert>) => {
-			state.alerts.remove = action.payload;
+		setAlert: (state, action: PayloadAction<AlertState>) => {
+			state.alert = action.payload;
 		},
 		clearAlert: (state) => {
-			state.alerts.remove = { productId: null, productName: null }
-			state.alerts.added = null;
+			state.alert = {
+				type: null,
+				message: null,
+				productId: null,
+				productName: null,
+			}
 		}
 	},
 });
 
-export const { addToCart, removeFromCart, incrementQty, decrementQty, setRemoveAlert, clearAlert } = cartSlice.actions;
+export const { addToCart, removeFromCart, incrementQty, decrementQty, setAlert, clearAlert } = cartSlice.actions;
 
 export default cartSlice.reducer;

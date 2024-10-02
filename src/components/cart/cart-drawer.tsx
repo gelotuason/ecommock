@@ -1,6 +1,6 @@
 'use client';
 
-import Alert from '@/components/cart/alert';
+import ConfirmationAlertDialog from '@/components/cart/confirmation-alert-dialog';
 import CartProducts from './cart-products';
 import { Dispatch, SetStateAction } from 'react';
 import { Button } from '@/components/ui/button';
@@ -35,7 +35,7 @@ export default function CartDrawer({ isOpen, setIsOpen }: CartDrawerProps) {
                 </DrawerFooter>
             </DrawerContent>
 
-            <Alert />
+            <ConfirmationAlertDialog />
         </Drawer >
     )
 }
