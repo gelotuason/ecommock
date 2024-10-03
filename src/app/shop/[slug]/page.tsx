@@ -25,6 +25,7 @@ function getBgSrc(uri: string): string {
 }
 
 // TODO: refactor async function and also change naming
+// TODO: error and loading states
 
 async function getProductsByCategory(categoryName: string) {
     try {
@@ -42,7 +43,6 @@ async function getProductsByCategory(categoryName: string) {
 }
 
 export default async function ShopCategory({ params }: { params: { slug: string } }) {
-    // TODO: error and loading states
 
     const title = decodeURIComponent(capitalizeFirstLetter(params.slug)); // shop title
     const bgSrc = getBgSrc(params.slug);

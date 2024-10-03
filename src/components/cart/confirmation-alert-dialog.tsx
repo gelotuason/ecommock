@@ -2,13 +2,14 @@
 
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, } from "@/components/ui/alert-dialog";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { removeFromCart, clearAlert } from "@/lib/features/cart/cartSlice";
+import { clearAlert } from "@/lib/features/cart/cartSlice";
+import { removeFromCartAsync } from "@/lib/features/cart/cartThunks";
 
 export default function ConfirmationAlertDialog() {
   const { type, productId, productName } = useAppSelector(state => state.cartReducer.alert);
   const dispatch = useAppDispatch();
 
-  const handleContinue = () => productId && dispatch(removeFromCart(productId));
+  const handleContinue = () => productId && dispatch(removeFromCartAsync(productId));
 
   const handleCancel = () => dispatch(clearAlert());
 

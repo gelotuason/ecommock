@@ -1,6 +1,6 @@
 'use client';
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useToast } from "@/hooks/use-toast";
 import { ToastProvider } from "@/components/ui/toast";
@@ -12,15 +12,18 @@ export default function ToastWrapper({ children }: { children: React.ReactNode }
     const dispatch = useAppDispatch();
     const { toast } = useToast();
 
-    if (alert.type === 'add' || alert.type === 'remove') {
-        toast({
-            title: alert.message?.toString(),
-            description: alert.productName,
-            duration: 3000,
-        });
+    useEffect(() => {
+        if (alert.type === 'add' || alert.type === 'remove') {
+            toast({
+                title: alert.message?.toString(),
+                description: alert.productName,
+                duration: 3000,
+            });
 
-        dispatch(clearAlert());
-    }
+            dispatch(clearAlert());
+        }
+    }, [alert])
+
 
     return <ToastProvider>{children}</ToastProvider>
 }

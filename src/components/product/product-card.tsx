@@ -4,8 +4,8 @@ import ProductDetail from "./product-detail";
 import { ShoppingCart, Heart, Search } from "lucide-react";
 import { Product } from "@/lib/types";
 import { useAppDispatch } from "@/lib/hooks";
-import { addToCart } from "@/lib/features/cart/cartSlice";
 import { useState } from "react";
+import { addToCartAsync } from "@/lib/features/cart/cartThunks";
 
 export default function ProductCard({ product }: { product: Product }) {
     const [productDetailDialog, toggleProductDetailDialog] = useState(false);
@@ -20,7 +20,7 @@ export default function ProductCard({ product }: { product: Product }) {
                     <div className="bg-[#f5f5f5] rounded flex items-center w-max divide-x shadow-lg mx-auto">
                         <button
                             className="p-1 hover:bg-black hover:rounded-s hover:text-white transition-all duration-300"
-                            onClick={() => dispatch(addToCart({ product, quantity: 1 }))}
+                            onClick={() => dispatch(addToCartAsync({ product, quantity: 1 }))}
                         >
                             <ShoppingCart size={20} strokeWidth={1} />
                         </button>

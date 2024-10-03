@@ -1,7 +1,7 @@
 'use client';
 
 import ConfirmationAlertDialog from '@/components/cart/confirmation-alert-dialog';
-import CartProducts from './cart-products';
+import CartProduct from '@/components/cart/cart-product';
 import { Dispatch, SetStateAction } from 'react';
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
@@ -27,7 +27,11 @@ export default function CartDrawer({ isOpen, setIsOpen }: CartDrawerProps) {
                 </DrawerHeader>
                 <DrawerDescription className='sr-only'></DrawerDescription>
 
-                <CartProducts />
+                <div className='divide-y px-4 overflow-auto'>
+                    {products && products.map((cartProduct, index) => (
+                        <CartProduct key={index} product={cartProduct.product} quantity={cartProduct.quantity} />
+                    ))}
+                </div>
 
                 <DrawerFooter>
                     <Button variant='outline'>More results</Button>

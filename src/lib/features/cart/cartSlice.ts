@@ -1,7 +1,7 @@
 import { Product } from '@/lib/types';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 
-type CartProduct = {
+export type CartProduct = {
 	product: Product
 	quantity: number
 }
@@ -31,21 +31,6 @@ const initialState: CartState = {
 		productName: null,
 	}
 }
-
-// const addCartAsync = createAsyncThunk('cart/addCart', async () => {
-// 	try {
-// 		const res = await fetch('https://fakestoreapi.com/carts/', {
-// 			method: 'POST',
-// 			headers: {
-// 				'Content-Type': 'application/json',
-// 			},
-// 			body: JSON.stringify(postData.cart),
-// 		});
-// 	} catch (err) {
-// 		console.error(err);
-// 		throw new Error('Failed to add cart.');
-// 	}
-// });
 
 const cartSlice = createSlice({
 	name: 'cart',
