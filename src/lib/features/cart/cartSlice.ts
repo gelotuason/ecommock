@@ -1,12 +1,12 @@
 import { Product } from '@/lib/types';
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export type CartProduct = {
 	product: Product
 	quantity: number
 }
 
-type Alert = 'add' | 'remove' | 'confirmation' | null
+type Alert = 'add' | 'remove' | 'update' | 'confirmation' | null
 
 type AlertState = {
 	type: Alert
@@ -66,7 +66,18 @@ const cartSlice = createSlice({
 					productName: selectedProduct.product.title
 				}
 			}
+		},
+		updateCartProduct: (state, action: PayloadAction<CartProduct>) => {
+			const selectedProduct = state.products.find(product => product.product.id === action.payload.product.id);
 
+			if (selectedProduct) {
+				selectedProduct.quantity = action.payload.quantity;
+				state.alert = {
+					type: 'update',
+					message: 'Item updated ✅',
+					productName: selectedProduct.product.title
+				}
+			}
 		},
 		incrementQty: (state, action: PayloadAction<number>) => {
 			const product = state.products.find(product => product.product.id === action.payload);
@@ -102,6 +113,6 @@ const cartSlice = createSlice({
 	},
 });
 
-export const { addToCart, removeFromCart, incrementQty, decrementQty, setAlert, clearAlert } = cartSlice.actions;
+export const { addToCart, removeFromCart, updateCartProduct, incrementQty, decrementQty, setAlert, clearAlert } = cartSlice.actions;
 
 export default cartSlice.reducer;

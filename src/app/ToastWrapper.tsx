@@ -13,7 +13,7 @@ export default function ToastWrapper({ children }: { children: React.ReactNode }
     const { toast } = useToast();
 
     useEffect(() => {
-        if (alert.type === 'add' || alert.type === 'remove') {
+        if (alert.type === 'add' || alert.type === 'remove' || alert.type === 'update') {
             toast({
                 title: alert.message?.toString(),
                 description: alert.productName,
