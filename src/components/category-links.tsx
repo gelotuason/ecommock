@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getCategories } from "@/lib/api/products";
-import { capitalizeFirstLetter } from "@/utils/format-string";
+import { capitalizeFirstLetter } from "@/utils/string-utils";
 import { useEffect, useState } from "react";
 
 type CategoryLinksProps = {

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Product } from "@/lib/types";
-import { capitalizeFirstLetter } from "@/utils/format-string";
+import { capitalizeFirstLetter } from "@/utils/string-utils";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import 'swiper/css';
@@ -12,6 +12,7 @@ import 'swiper/css/pagination';
 import '@/app/css/collections-swiper.css';
 
 export default function Collections() {
+    // TODO: change products state name to collections
     // TODO: avoid returning to 1st slide when user clicked or rerendering
     // TODO: error and loading states
     // TODO: caching

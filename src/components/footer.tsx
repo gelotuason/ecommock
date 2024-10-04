@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getCategories } from "@/lib/api/products";
-import { capitalizeFirstLetter } from "@/utils/format-string";
+import { capitalizeFirstLetter } from "@/utils/string-utils";
 import { Mail, Linkedin, Github } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, } from "@/components/ui/accordion";
 
