@@ -1,5 +1,6 @@
 'use client';
 
+import ProductRating from "@/components/product/product-rating";
 import { Dispatch, SetStateAction } from "react";
 import { Product } from "@/lib/types";
 import { Heart, ShoppingCart } from "lucide-react";
@@ -7,7 +8,6 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useAppDispatch } from "@/lib/hooks";
-import { generateStars } from "@/utils/generate-utils";
 import { addToCartAsync } from "@/lib/features/cart/cartThunks";
 
 type ProductDetailProps = {
@@ -18,8 +18,6 @@ type ProductDetailProps = {
 
 export default function ProductDetail({ open, onOpenChange, product }: ProductDetailProps) {
     const dispatch = useAppDispatch();
-
-    const generatedStars = generateStars(product.rating.rate)
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -33,7 +31,7 @@ export default function ProductDetail({ open, onOpenChange, product }: ProductDe
 
                     <div className="px-1 space-y-1 text-sm text-accent">
                         <p className="text-black">${product.price}</p>
-                        <div className="flex">{generatedStars}</div>
+                        <ProductRating className="flex" productRating={product.rating.rate} />
                         <p className="text-black font-medium">{product.title}</p>
                         <p className="text-accent">{product.description}</p>
                     </div>

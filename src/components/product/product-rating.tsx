@@ -1,6 +1,11 @@
 import { Star } from "lucide-react";
 
-export function generateStars(productRating: number): React.ReactNode {
+type ProductRatingProps = {
+    productRating: number
+    className: string
+}
+
+export default function ProductRating({ productRating, className }: ProductRatingProps): React.ReactNode {
     const generatedStars = [];
     const isNotWhole = productRating % 1 !== 0;
 
@@ -21,5 +26,9 @@ export function generateStars(productRating: number): React.ReactNode {
         }
     }
 
-    return generatedStars;
+    return (
+        <p className={`${className}`}>
+            {generatedStars}
+        </p>
+    )
 }

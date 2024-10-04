@@ -1,18 +1,16 @@
 'use client';
 
 import ProductDetail from "./product-detail";
+import ProductRating from "@/components/product/product-rating";
 import { ShoppingCart, Heart, Search } from "lucide-react";
 import { Product } from "@/lib/types";
 import { useAppDispatch } from "@/lib/hooks";
 import { useState } from "react";
 import { addToCartAsync } from "@/lib/features/cart/cartThunks";
-import { generateStars } from "@/utils/generate-utils";
 
 export default function ProductCard({ product }: { product: Product }) {
     const [productDetailDialog, toggleProductDetailDialog] = useState(false);
     const dispatch = useAppDispatch();
-
-    const generatedStars = generateStars(product.rating.rate);
 
     return (
         <div>
@@ -41,7 +39,7 @@ export default function ProductCard({ product }: { product: Product }) {
 
             <div className="mt-2 px-1 space-y-1 text-sm">
                 <p>${product.price}</p>
-                <div className="text-accent flex">{generatedStars}</div>
+                <ProductRating className="text-accent flex" productRating={product.rating.rate} />
                 <p className="font-medium">{product.title}</p>
             </div>
 
