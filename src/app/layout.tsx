@@ -34,9 +34,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="h-full">
       <body
-        className={`${jost.className} ${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${jost.className} ${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-full`}
       >
         <StoreProvider>
           <ToastWrapper>

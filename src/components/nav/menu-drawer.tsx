@@ -1,7 +1,9 @@
+'use client';
+
 import Link from "next/link";
 import { X, ChevronRight, Heart, User } from "lucide-react";
-import { Button } from "../ui/button";
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerClose, DrawerTrigger } from "../ui/drawer";
+import { Button } from "@/components/ui/button";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerClose, DrawerTrigger } from "@/components/ui/drawer";
 
 type MenuDrawerProps = {
     isOpen: boolean
@@ -9,6 +11,8 @@ type MenuDrawerProps = {
 }
 
 export default function MenuDrawer({ isOpen, setIsOpen }: MenuDrawerProps) {
+    // TODO: change the login button to logout button if the user is already logged in
+
     return (
         <Drawer open={isOpen} onOpenChange={setIsOpen} direction='left'>
             <DrawerContent className='h-screen md:w-1/4 rounded-none border-none bg-secondary'>
@@ -19,7 +23,9 @@ export default function MenuDrawer({ isOpen, setIsOpen }: MenuDrawerProps) {
                         <X strokeWidth={1} />
                     </DrawerClose>
                 </DrawerHeader>
-                <DrawerDescription className='flex flex-col gap-8 px-6'>
+                <DrawerDescription className='sr-only'></DrawerDescription>
+
+                <div className="flex flex-col gap-8 px-6">
                     <div className="">
                         <Button asChild variant="ghost" className='w-full border-b rounded-none flex justify-between py-6'>
                             <Link href='/' onClick={setIsOpen}>
@@ -42,13 +48,13 @@ export default function MenuDrawer({ isOpen, setIsOpen }: MenuDrawerProps) {
                             </Link>
                         </Button>
                         <Button variant='ghost' asChild className='w-full border-b rounded-none flex justify-start gap-4 py-6'>
-                            <Link href='/' onClick={setIsOpen}>
+                            <Link href='/auth' onClick={setIsOpen}>
                                 <User strokeWidth={1} />
                                 Login
                             </Link>
                         </Button>
                     </div>
-                </DrawerDescription>
+                </div>
             </DrawerContent>
         </Drawer>
     )

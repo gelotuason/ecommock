@@ -17,7 +17,7 @@ export default function Nav() {
     const [cartDrawer, toggleCartDrawer] = useDrawerState();
 
     return (
-        <nav className='flex justify-between items-center px-4 py-3'>
+        <nav className='flex justify-between items-center px-4 py-3 border border-b'>
             <Button size='icon' variant='link' title='Menu' onClick={toggleMenuDrawer}>
                 <Menu strokeWidth={1} />
             </Button>
