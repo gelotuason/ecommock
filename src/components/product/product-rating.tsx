@@ -22,13 +22,13 @@ export default function ProductRating({ productRating, className }: ProductRatin
                 </div>
             );
         } else {
-            generatedStars.push(<Star key={i} size={16} strokeWidth={1} fillRule='inherit' className="fill-accent" />);
+            generatedStars.push(<Star key={i} size={16} strokeWidth={1} className="fill-accent" />);
         }
     }
 
     return (
-        <p className={`${className}`}>
+        <div className={`${className}`}>
             {generatedStars}
-        </p>
+        </div>
     )
 }
