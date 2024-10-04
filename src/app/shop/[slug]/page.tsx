@@ -1,6 +1,5 @@
 import Collections from "@/components/collections";
-import ShopControlBar from "@/components/shop-control-bar";
-import ProductCard from "@/components/product/product-card";
+import ProductLayout from "../product-layout";
 import { categoryImages } from "@/lib/constants";
 import { capitalizeFirstLetter } from "@/utils/string-utils";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, } from "@/components/ui/breadcrumb";
@@ -42,7 +41,7 @@ async function getProductsByCategory(categoryName: string) {
     }
 }
 
-export default async function ShopCategory({ params }: { params: { slug: string } }) {
+export default async function ShopByCategory({ params }: { params: { slug: string } }) {
 
     const title = decodeURIComponent(capitalizeFirstLetter(params.slug)); // shop title
     const bgSrc = getBgSrc(params.slug);
@@ -77,15 +76,7 @@ export default async function ShopCategory({ params }: { params: { slug: string 
 
             <Collections />
 
-            <section className="px-4 py-10">
-                <ShopControlBar />
-
-                <div className="grid grid-cols-2 gap-x-3 gap-y-8 py-8">
-                    {products && products.map((_, index) => (
-                        <ProductCard key={index} product={products[index]} />
-                    ))}
-                </div>
-            </section>
+            <ProductLayout products={products} />
         </main>
     )
 }

@@ -1,6 +1,5 @@
 import Collections from "@/components/collections";
-import ShopControlBar from "@/components/shop-control-bar";
-import ProductCard from "@/components/product/product-card";
+import ProductLayout from "./product-layout";
 import { Product } from "@/lib/types";
 import { categoryImages } from "@/lib/constants";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, } from "@/components/ui/breadcrumb";
@@ -44,20 +43,11 @@ export default async function Shop() {
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>
-                <small className='text-white/60 font-light bottom-1 right-1 absolute'>Photo by {categoryImages[4].credit} on Unsplash.</small>
             </section>
 
             <Collections />
 
-            <section className="px-4 py-10">
-                <ShopControlBar />
-
-                <div className="grid grid-cols-2 gap-x-3 gap-y-8 py-8">
-                    {products?.map((_, index) => (
-                        <ProductCard key={index} product={products[index]} />
-                    ))}
-                </div>
-            </section>
+            <ProductLayout products={products} />
         </main>
     )
 }

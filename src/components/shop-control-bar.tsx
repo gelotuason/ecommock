@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from "react";
-import { ListFilter, ArrowDownUp, LayoutGrid, List } from "lucide-react";
+import { useState, Dispatch, SetStateAction } from "react";
+import { ListFilter, ArrowDownUp, LayoutList, Grid2X2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, DropdownMenuCheckboxItem, } from "@/components/ui/dropdown-menu";
@@ -9,7 +9,7 @@ import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
 
 type Checked = DropdownMenuCheckboxItemProps["checked"];
 
-export default function ShopControlBar() {
+export default function ShopControlBar({ setLayout }: { setLayout: Dispatch<SetStateAction<string>> }) {
     const [showBestselling, setShowBestselling] = useState<Checked>(false);
     const [showAtoZ, setShowAtoZ] = useState<Checked>(false);
     const [showZtoA, setShowZtoA] = useState<Checked>(false);
@@ -81,11 +81,19 @@ export default function ShopControlBar() {
             </div>
 
             <div className="flex">
-                <Button variant='ghost' size='icon'>
-                    <LayoutGrid strokeWidth={1} size={20} />
+                <Button
+                    variant='ghost'
+                    size='icon'
+                    onClick={() => setLayout('grid-cols-2 lg:grid-cols-3')}
+                >
+                    <Grid2X2 strokeWidth={1} size={20} />
                 </Button>
-                <Button variant='ghost' size='icon'>
-                    <List strokeWidth={1} size={20} />
+                <Button
+                    variant='ghost'
+                    size='icon'
+                    onClick={() => setLayout('grid-cols-1')}
+                >
+                    <LayoutList strokeWidth={1} size={20} />
                 </Button>
             </div>
         </div>
