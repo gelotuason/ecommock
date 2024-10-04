@@ -6,11 +6,13 @@ import { Product } from "@/lib/types";
 import { useAppDispatch } from "@/lib/hooks";
 import { useState } from "react";
 import { addToCartAsync } from "@/lib/features/cart/cartThunks";
+import { generateStars } from "@/utils/generate-utils";
 
 export default function ProductCard({ product }: { product: Product }) {
     const [productDetailDialog, toggleProductDetailDialog] = useState(false);
-
     const dispatch = useAppDispatch();
+
+    const generatedStars = generateStars(product.rating.rate);
 
     return (
         <div>
@@ -39,7 +41,7 @@ export default function ProductCard({ product }: { product: Product }) {
 
             <div className="mt-2 px-1 space-y-1 text-sm">
                 <p>${product.price}</p>
-                <p className="text-accent">{product.rating.rate} rating</p>
+                <div className="text-accent flex">{generatedStars}</div>
                 <p className="font-medium">{product.title}</p>
             </div>
 
