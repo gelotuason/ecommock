@@ -4,19 +4,21 @@ import { Dispatch, SetStateAction } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Product } from "@/lib/types";
 import { Minus, Plus } from "lucide-react";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { updateCartProduct, decrementQty, incrementQty } from "@/lib/features/cart/cartSlice";
+import { decrementQty, incrementQty } from "@/lib/features/cart/cartSlice";
+import { updateCartProductAsync } from "@/lib/features/cart/cartThunks";
 
 type EditCartProductDialogProps = {
-    open: boolean
-    onOpenChange: Dispatch<SetStateAction<boolean>>
+    isEditDialogOpen: boolean
+    setIsEditDialogOpen: Dispatch<SetStateAction<boolean>>
+    setIsRemoveAlertDialogOpen: Dispatch<SetStateAction<boolean>>
     product: Product
     quantity: number
 }
 
-export default function EditCartProductDialog({ open, onOpenChange, product, quantity }: EditCartProductDialogProps) {
+export default function EditCartProductDialog({ isEditDialogOpen, setIsEditDialogOpen, setIsRemoveAlertDialogOpen, product, quantity }: EditCartProductDialogProps) {
     const { products } = useAppSelector(state => state.cartReducer);
     const dispatch = useAppDispatch();
 
@@ -24,13 +26,21 @@ export default function EditCartProductDialog({ open, onOpenChange, product, qua
 
     const handleUpdateProduct = () => {
         if (selectedProduct) {
-            dispatch(updateCartProduct({ product, quantity: selectedProduct.quantity }));
-            onOpenChange(false);
+            dispatch(updateCartProductAsync({ product, quantity: selectedProduct.quantity }));
+            setIsEditDialogOpen(false);
+        }
+    }
+
+    const handleDecrement = () => {
+        if (quantity === 1) {
+            setIsRemoveAlertDialogOpen(true);
+        } else {
+            dispatch(decrementQty(product.id));
         }
     }
 
     return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
+        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
             <DialogContent className="w-5/6">
                 <DialogHeader>
                     <DialogTitle className="text-start">Edit option</DialogTitle>
@@ -57,7 +67,7 @@ export default function EditCartProductDialog({ open, onOpenChange, product, qua
                     <Button
                         variant='ghost'
                         className='px-3 absolute inset-y-0 left-0'
-                        onClick={() => dispatch(decrementQty(product.id))}
+                        onClick={handleDecrement}
                     >
                         <Minus size={12} strokeWidth={1} />
                     </Button>

@@ -1,25 +1,36 @@
 'use client';
 
+import { Product } from "@/lib/types";
+import { Dispatch, SetStateAction } from "react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, } from "@/components/ui/alert-dialog";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { clearAlert } from "@/lib/features/cart/cartSlice";
+import { useAppDispatch } from "@/lib/hooks";
 import { removeFromCartAsync } from "@/lib/features/cart/cartThunks";
 
-export default function RemoveAlertDialog() {
-  const { type, productId, productName } = useAppSelector(state => state.cartReducer.alert);
+type RemoveAlertDialogProps = {
+  isRemoveAlertDialogOpen: boolean
+  setIsRemoveAlertDialogOpen: Dispatch<SetStateAction<boolean>>
+  setIsEditDialogOpen: Dispatch<SetStateAction<boolean>>
+  product: Product
+}
+
+export default function RemoveAlertDialog({ isRemoveAlertDialogOpen, setIsRemoveAlertDialogOpen, setIsEditDialogOpen, product }: RemoveAlertDialogProps) {
   const dispatch = useAppDispatch();
 
-  const handleContinue = () => productId && dispatch(removeFromCartAsync(productId));
+  const handleContinue = () => {
+    if (product) {
+      dispatch(removeFromCartAsync(product.id));
+      setIsEditDialogOpen(false);
+      setIsRemoveAlertDialogOpen(false);
+    }
+  }
 
-  const handleCancel = () => dispatch(clearAlert());
-
-  if (type !== 'confirmation') return null;
+  const handleCancel = () => setIsRemoveAlertDialogOpen(false);
 
   return (
-    <AlertDialog open={type === 'confirmation'}>
+    <AlertDialog open={isRemoveAlertDialogOpen} onOpenChange={setIsRemoveAlertDialogOpen}>
       <AlertDialogContent className="w-3/4">
         <AlertDialogHeader>
-          <AlertDialogTitle className="font-normal">Do you want to remove <strong>{productName}</strong> from your cart?</AlertDialogTitle>
+          <AlertDialogTitle className="font-normal">Do you want to remove <strong>{product && product.title}</strong> from your cart?</AlertDialogTitle>
           <AlertDialogDescription className="sr-only"></AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

@@ -8,12 +8,12 @@ import { clearAlert } from "@/lib/features/cart/cartSlice";
 
 
 export default function ToastWrapper({ children }: { children: React.ReactNode }) {
-    const alert = useAppSelector(state => state.cartReducer.alert);
+    const { alert } = useAppSelector(state => state.cartReducer);
     const dispatch = useAppDispatch();
     const { toast } = useToast();
 
     useEffect(() => {
-        if (alert.type === 'add' || alert.type === 'remove' || alert.type === 'update') {
+        if (alert.message) {
             toast({
                 title: alert.message?.toString(),
                 description: alert.productName,
@@ -22,8 +22,7 @@ export default function ToastWrapper({ children }: { children: React.ReactNode }
 
             dispatch(clearAlert());
         }
-    }, [alert])
-
+    }, [alert]);
 
     return <ToastProvider>{children}</ToastProvider>
 }

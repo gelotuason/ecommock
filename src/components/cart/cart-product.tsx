@@ -1,12 +1,11 @@
 'use client';
 
 import EditCartProductDialog from './edit-cart-product-dialog';
+import RemoveAlertDialog from './remove-alert-dialog';
 import { useState } from 'react';
 import { Product } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Trash2, Pen } from 'lucide-react';
-import { useAppDispatch } from '@/lib/hooks';
-import { setAlert } from '@/lib/features/cart/cartSlice';
 
 type CartProductProps = {
     product: Product
@@ -14,9 +13,8 @@ type CartProductProps = {
 }
 
 export default function CartProduct({ product, quantity }: CartProductProps) {
-    const [editProduct, toggleEditProduct] = useState(false);
-
-    const dispatch = useAppDispatch();
+    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+    const [isRemoveAlertDialogOpen, setIsRemoveAlertDialogOpen] = useState(false);
 
     return (
         <div className='flex gap-3 py-2'>
@@ -35,7 +33,7 @@ export default function CartProduct({ product, quantity }: CartProductProps) {
                     variant='ghost'
                     size='icon'
                     className='w-max h-max px-1 py-1'
-                    onClick={() => dispatch(setAlert({ type: 'confirmation', productId: product.id, productName: product.title }))}
+                    onClick={() => setIsRemoveAlertDialogOpen(true)}
                 >
                     <Trash2 size={16} strokeWidth={1} />
                 </Button>
@@ -45,17 +43,25 @@ export default function CartProduct({ product, quantity }: CartProductProps) {
                     variant='ghost'
                     size='icon'
                     className='w-max h-max px-1 py-1'
-                    onClick={() => toggleEditProduct(!editProduct)}
+                    onClick={() => setIsEditDialogOpen(true)}
                 >
                     <Pen size={16} strokeWidth={1} />
                 </Button>
             </div>
 
             <EditCartProductDialog
-                open={editProduct}
-                onOpenChange={toggleEditProduct}
+                isEditDialogOpen={isEditDialogOpen}
+                setIsEditDialogOpen={setIsEditDialogOpen}
+                setIsRemoveAlertDialogOpen={setIsRemoveAlertDialogOpen}
                 product={product}
                 quantity={quantity}
+            />
+
+            <RemoveAlertDialog
+                isRemoveAlertDialogOpen={isRemoveAlertDialogOpen}
+                setIsRemoveAlertDialogOpen={setIsRemoveAlertDialogOpen}
+                setIsEditDialogOpen={setIsEditDialogOpen}
+                product={product}
             />
         </div>
     )

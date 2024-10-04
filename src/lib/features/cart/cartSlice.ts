@@ -6,10 +6,7 @@ export type CartProduct = {
 	quantity: number
 }
 
-type Alert = 'add' | 'remove' | 'update' | 'confirmation' | null
-
 type AlertState = {
-	type: Alert
 	message?: string | null
 	productId?: number | null
 	productName?: string | null
@@ -25,7 +22,6 @@ const initialState: CartState = {
 	// userId: null,
 	products: [],
 	alert: {
-		type: null,
 		message: null,
 		productId: null,
 		productName: null,
@@ -42,13 +38,11 @@ const cartSlice = createSlice({
 			if (existingProduct === -1) {
 				state.products.push(action.payload);
 				state.alert = {
-					type: 'add',
 					message: 'Successfully added to cart ✅',
 					productName: action.payload.product.title
 				};
 			} else {
 				state.alert = {
-					type: 'add',
 					message: 'Item already in the cart',
 					productName: action.payload.product.title
 				};
@@ -61,7 +55,6 @@ const cartSlice = createSlice({
 			if (updatedCartProducts && selectedProduct) {
 				state.products = updatedCartProducts;
 				state.alert = {
-					type: 'remove',
 					message: 'Removed from cart ⛔',
 					productName: selectedProduct.product.title
 				}
@@ -73,7 +66,6 @@ const cartSlice = createSlice({
 			if (selectedProduct) {
 				selectedProduct.quantity = action.payload.quantity;
 				state.alert = {
-					type: 'update',
 					message: 'Item updated ✅',
 					productName: selectedProduct.product.title
 				}
@@ -87,24 +79,13 @@ const cartSlice = createSlice({
 		decrementQty: (state, action: PayloadAction<number>) => {
 			const product = state.products.find(product => product.product.id === action.payload);
 
-			if (product) {
-				if (product.quantity === 1) {
-					state.alert = {
-						type: 'confirmation',
-						productId: product.product.id,
-						productName: product.product.title,
-					}
-				} else {
-					product.quantity -= 1;
-				}
-			}
+			if (product) product.quantity -= 1;
 		},
 		setAlert: (state, action: PayloadAction<AlertState>) => {
 			state.alert = action.payload;
 		},
 		clearAlert: (state) => {
 			state.alert = {
-				type: null,
 				message: null,
 				productId: null,
 				productName: null,
