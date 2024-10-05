@@ -1,9 +1,10 @@
 'use client';
 
 import Link from "next/link";
-import { X, ChevronRight, Heart, User } from "lucide-react";
+import { X, ChevronRight, Heart, User, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerClose, DrawerTrigger } from "@/components/ui/drawer";
+import { useAppSelector } from "@/lib/hooks";
 
 type MenuDrawerProps = {
     isOpen: boolean
@@ -11,7 +12,7 @@ type MenuDrawerProps = {
 }
 
 export default function MenuDrawer({ isOpen, setIsOpen }: MenuDrawerProps) {
-    // TODO: change the login button to logout button if the user is already logged in
+    const { isAuthenticated } = useAppSelector(state => state.authReducer);
 
     return (
         <Drawer open={isOpen} onOpenChange={setIsOpen} direction='left'>
@@ -26,7 +27,7 @@ export default function MenuDrawer({ isOpen, setIsOpen }: MenuDrawerProps) {
                 <DrawerDescription className='sr-only'></DrawerDescription>
 
                 <div className="flex flex-col gap-8 px-6">
-                    <div className="">
+                    <div>
                         <Button asChild variant="ghost" className='w-full border-b rounded-none flex justify-between py-6'>
                             <Link href='/' onClick={setIsOpen}>
                                 Home
@@ -48,10 +49,16 @@ export default function MenuDrawer({ isOpen, setIsOpen }: MenuDrawerProps) {
                             </Link>
                         </Button>
                         <Button variant='ghost' asChild className='w-full border-b rounded-none flex justify-start gap-4 py-6'>
-                            <Link href='/auth' onClick={setIsOpen}>
-                                <User strokeWidth={1} />
-                                Login
-                            </Link>
+                            {isAuthenticated
+                                ? <Link href='/account' onClick={setIsOpen}>
+                                    <User strokeWidth={1} />
+                                    My account
+                                </Link>
+                                : <Link href='/auth' onClick={setIsOpen}>
+                                    <LogIn strokeWidth={1} />
+                                    Login
+                                </Link>
+                            }
                         </Button>
                     </div>
                 </div>
