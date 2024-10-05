@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { login } from "@/lib/features/auth/authSlice";
+import { useEffect, useState } from "react";
 
 const formSchema = z.object({
     username: z.string()
@@ -19,26 +20,34 @@ const formSchema = z.object({
         .min(2, {
             message: "Password must be at least 2 characters.",
         })
-})
+});
 
 export default function LoginForm() {
+    // TODO: add loading when logging in
+
     const { error, isAuthenticated } = useAppSelector(state => state.authReducer);
     const dispatch = useAppDispatch();
     const router = useRouter();
+    const [isRedirecting, setIsRedirecting] = useState(false);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            username: "",
-            password: "",
+            username: "mor_2314",
+            password: "83r5^_",
         },
     })
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    const onSubmit = (values: z.infer<typeof formSchema>) => {
         dispatch(login({ username: values.username, password: values.password }));
-    }
+    };
 
-    if (isAuthenticated) router.push('/');
+    useEffect(() => {
+        if (isAuthenticated && !isRedirecting) {
+            setIsRedirecting(true);
+            router.push('/');
+        }
+    }, [isAuthenticated, router, isRedirecting]);
 
     return (
         <main className="flex-1 flex justify-center items-center px-4 py-24">
