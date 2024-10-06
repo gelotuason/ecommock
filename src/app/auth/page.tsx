@@ -1,46 +1,17 @@
 'use client';
 
+import SigninForm from "@/components/auth/signin-form";
+import SignupForm from "@/components/auth/signup-form";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { login } from "@/lib/features/auth/authSlice";
+import { useAppSelector } from "@/lib/hooks";
 import { useEffect, useState } from "react";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
-const formSchema = z.object({
-    username: z.string()
-        .min(2, {
-            message: "Username must be at least 2 characters.",
-        }),
-    password: z.string()
-        .min(2, {
-            message: "Password must be at least 2 characters.",
-        })
-});
-
-export default function LoginForm() {
-    // TODO: add loading when logging in
-
-    const { error, isAuthenticated } = useAppSelector(state => state.authReducer);
-    const dispatch = useAppDispatch();
+export default function Authentication() {
+    const { isAuthenticated } = useAppSelector(state => state.authReducer);
     const router = useRouter();
     const [isRedirecting, setIsRedirecting] = useState(false);
-
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            username: "mor_2314",
-            password: "83r5^_",
-        },
-    })
-
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
-        dispatch(login({ username: values.username, password: values.password }));
-    };
 
     useEffect(() => {
         if (isAuthenticated && !isRedirecting) {
@@ -50,44 +21,37 @@ export default function LoginForm() {
     }, [isAuthenticated, router, isRedirecting]);
 
     return (
-        <main className="flex-1 flex justify-center items-center px-4 py-24">
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="bg-background space-y-4 p-6 border rounded w-96">
-                    <h1 className="text-2xl">Login to continue.</h1>
-                    <FormField
-                        control={form.control}
-                        name="username"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Username</FormLabel>
-                                <FormControl>
-                                    <Input className="bg-white" placeholder="Enter your username" {...field} />
-                                </FormControl>
-                                <FormDescription className="sr-only"></FormDescription>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="password"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Password</FormLabel>
-                                <FormControl>
-                                    <Input className="bg-white" type="password" placeholder="Enter your password" {...field} />
-                                </FormControl>
-                                <FormDescription className="sr-only"></FormDescription>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-
-                    <p className="text-red-500 text-sm">{error && error}</p>
-
-                    <Button type="submit">Login</Button>
-                </form>
-            </Form>
+        <main className="flex-1 container py-24 px-4 mx-auto max-w-[400px]">
+            <Tabs defaultValue="signin">
+                <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="signin">Sign in</TabsTrigger>
+                    <TabsTrigger value="signup">Sign up</TabsTrigger>
+                </TabsList>
+                <TabsContent value="signin">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="text-xl">Sign in to continue.</CardTitle>
+                            <CardDescription className="sr-only"></CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <SigninForm />
+                        </CardContent>
+                        <CardFooter className="sr-only"></CardFooter>
+                    </Card>
+                </TabsContent>
+                <TabsContent value="signup">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="text-xl">Sign up an account.</CardTitle>
+                            <CardDescription className="sr-only"></CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <SignupForm />
+                        </CardContent>
+                        <CardFooter className="sr-only"></CardFooter>
+                    </Card>
+                </TabsContent>
+            </Tabs>
         </main>
     )
 }
