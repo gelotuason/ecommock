@@ -43,7 +43,7 @@ export default function MenuDrawer({ isOpen, setIsOpen }: MenuDrawerProps) {
                     </div>
                     <div>
                         <Button variant='ghost' asChild className='w-full border-b rounded-none flex justify-start gap-4 py-6'>
-                            <Link href='/' onClick={setIsOpen}>
+                            <Link href='/wishlist' onClick={setIsOpen}>
                                 <Heart strokeWidth={1} size={20} />
                                 Wishlist
                             </Link>

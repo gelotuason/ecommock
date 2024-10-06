@@ -7,10 +7,14 @@ import { Product } from "@/lib/types";
 import { useAppDispatch } from "@/lib/hooks";
 import { useState } from "react";
 import { addToCartAsync } from "@/lib/features/cart/cartThunks";
+import { addToWishlist } from "@/lib/features/wishlist/wishlistSlice";
 
 export default function ProductCard({ product }: { product: Product }) {
-    const [productDetailDialog, toggleProductDetailDialog] = useState(false);
+    // TODO: find added to cart and wishlist. if added, change action button css
+    // TODO: if at /wishlist path, change the heart icon to X icon
+
     const dispatch = useAppDispatch();
+    const [productDetailDialog, toggleProductDetailDialog] = useState(false);
 
     return (
         <div>
@@ -24,7 +28,10 @@ export default function ProductCard({ product }: { product: Product }) {
                         >
                             <ShoppingCart size={20} strokeWidth={1} />
                         </button>
-                        <button className="p-1 hover:bg-black hover:text-white transition-all duration-300">
+                        <button
+                            className="p-1 hover:bg-black hover:text-white transition-all duration-300"
+                            onClick={() => dispatch(addToWishlist(product))}
+                        >
                             <Heart size={20} strokeWidth={1} />
                         </button>
                         <button
