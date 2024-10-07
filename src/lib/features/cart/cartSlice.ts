@@ -6,7 +6,7 @@ export type CartProduct = {
 	quantity: number
 }
 
-type AlertState = {
+export type AlertState = {
 	message?: string | null
 	productId?: number | null
 	productName?: string | null
@@ -33,24 +33,22 @@ const cartSlice = createSlice({
 	initialState,
 	reducers: {
 		addToCart: (state, action: PayloadAction<CartProduct>) => {
-			const existingProduct = state.products.findIndex(product => product.product.id === action.payload.product.id);
+			const existingProduct = state.products.find(cartProduct => cartProduct.product.id === action.payload.product.id);
 
-			if (existingProduct === -1) {
-				state.products.push(action.payload);
-				state.alert = {
-					message: 'Successfully added to cart ✅',
-					productName: action.payload.product.title
-				};
+			if (existingProduct !== undefined) {
+				existingProduct.quantity++;
 			} else {
-				state.alert = {
-					message: 'Item already in the cart',
-					productName: action.payload.product.title
-				};
+				state.products.push(action.payload);
 			}
+
+			state.alert = {
+				message: 'Successfully added to cart ✅',
+				productName: action.payload.product.title
+			};
 		},
 		removeFromCart: (state, action: PayloadAction<number>) => {
-			const selectedProduct = state.products.find(product => product.product.id === action.payload);
-			const updatedCartProducts = state.products.filter(product => product.product.id !== action.payload);
+			const selectedProduct = state.products.find(cartProduct => cartProduct.product.id === action.payload);
+			const updatedCartProducts = state.products.filter(cartProduct => cartProduct.product.id !== action.payload);
 
 			if (updatedCartProducts && selectedProduct) {
 				state.products = updatedCartProducts;
@@ -61,7 +59,7 @@ const cartSlice = createSlice({
 			}
 		},
 		updateCartProduct: (state, action: PayloadAction<CartProduct>) => {
-			const selectedProduct = state.products.find(product => product.product.id === action.payload.product.id);
+			const selectedProduct = state.products.find(cartProduct => cartProduct.product.id === action.payload.product.id);
 
 			if (selectedProduct) {
 				selectedProduct.quantity = action.payload.quantity;
@@ -72,19 +70,19 @@ const cartSlice = createSlice({
 			}
 		},
 		incrementQty: (state, action: PayloadAction<number>) => {
-			const product = state.products.find(product => product.product.id === action.payload);
+			const selectedProduct = state.products.find(cartProduct => cartProduct.product.id === action.payload);
 
-			if (product) product.quantity++;
+			if (selectedProduct) selectedProduct.quantity++;
 		},
 		decrementQty: (state, action: PayloadAction<number>) => {
-			const product = state.products.find(product => product.product.id === action.payload);
+			const selectedProduct = state.products.find(cartProduct => cartProduct.product.id === action.payload);
 
-			if (product) product.quantity -= 1;
+			if (selectedProduct) selectedProduct.quantity -= 1;
 		},
-		setAlert: (state, action: PayloadAction<AlertState>) => {
+		setCartAlert: (state, action: PayloadAction<AlertState>) => {
 			state.alert = action.payload;
 		},
-		clearAlert: (state) => {
+		clearCartAlert: (state) => {
 			state.alert = {
 				message: null,
 				productId: null,
@@ -94,6 +92,6 @@ const cartSlice = createSlice({
 	},
 });
 
-export const { addToCart, removeFromCart, updateCartProduct, incrementQty, decrementQty, setAlert, clearAlert } = cartSlice.actions;
+export const { addToCart, removeFromCart, updateCartProduct, incrementQty, decrementQty, setCartAlert, clearCartAlert } = cartSlice.actions;
 
 export default cartSlice.reducer;
