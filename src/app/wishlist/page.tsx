@@ -25,15 +25,10 @@ export default function Wishlist() {
 
 
             {wishlists.length !== 0
-                ?
-                <section className="grid grid-cols-2 gap-x-3 gap-y-8">
-                    {
-                        wishlists.map(wishlist => (
-
-                            <ProductCard product={wishlist} />
-
-                        ))
-                    }
+                ? <section className="grid grid-cols-2 gap-x-3 gap-y-8">
+                    {wishlists.map(wishlist => (
+                        <ProductCard key={wishlist.id} product={wishlist} />
+                    ))}
                 </section>
                 : <p className="text-center mt-10">No products were added to the wishlist. <Link href='/shop' className="underline">Back to shopping.</Link></p>
             }
