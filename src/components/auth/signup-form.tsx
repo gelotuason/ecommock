@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { signup } from "@/lib/features/auth/authSlice";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction } from "react";
 
 const signupSchema = z.object({
     email: z.string().email({ message: 'Please enter a valid email address.' }),
@@ -29,13 +29,7 @@ const signupSchema = z.object({
 export default function SignupForm({ setActiveTab }: { setActiveTab: Dispatch<SetStateAction<string>> }) {
     // TODO: add loading when submitting
     const error = useAppSelector(state => state.authReducer.errors.signup);
-    const users = useAppSelector(state => state.authReducer.users);
-    const status = useAppSelector(state => state.authReducer.status);
     const dispatch = useAppDispatch();
-
-    useEffect(() => {
-        console.log(users);
-    }, [users])
 
     const signupForm = useForm<z.infer<typeof signupSchema>>({
         resolver: zodResolver(signupSchema),
@@ -50,16 +44,12 @@ export default function SignupForm({ setActiveTab }: { setActiveTab: Dispatch<Se
     });
 
     const handleSignup = async (values: z.infer<typeof signupSchema>) => {
-        if (status === 'idle') {
-            const res = await dispatch(signup({
-                email: values.email,
-                username: values.username,
-                password: values.password,
-                firstname: values.firstname,
-                lastname: values.lastname,
-            }));
+        try {
+            await dispatch(signup({ ...values })).unwrap();
 
-            if (res.type !== 'auth/signup/rejected') setActiveTab('signin')
+            setActiveTab('signin');
+        } catch (err) {
+            console.error(err);
         }
     };
 

@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { signin } from "@/lib/features/auth/authSlice";
+import { useRouter } from "next/navigation";
 
 const signinSchema = z.object({
     username: z.string(),
@@ -19,6 +20,7 @@ export default function SigninForm() {
 
     const error = useAppSelector(state => state.authReducer.errors.signin);
     const dispatch = useAppDispatch();
+    const router = useRouter();
 
     const signinForm = useForm<z.infer<typeof signinSchema>>({
         resolver: zodResolver(signinSchema),
@@ -28,8 +30,14 @@ export default function SigninForm() {
         },
     });
 
-    const handleSignin = (values: z.infer<typeof signinSchema>) => {
-        dispatch(signin({ username: values.username, password: values.password }));
+    const handleSignin = async (values: z.infer<typeof signinSchema>) => {
+        try {
+            await dispatch(signin({ username: values.username, password: values.password })).unwrap();
+
+            router.push('/');
+        } catch (err) {
+            console.error(err);
+        }
     };
 
     return (
@@ -64,7 +72,7 @@ export default function SigninForm() {
                     )}
                 />
 
-                <p className="text-red-500 text-sm h-5">{error && error}</p>
+                <p className="text-red-500 text-sm h-10">{error && error}</p>
 
                 <Button type="submit">Sign in</Button>
             </form>
