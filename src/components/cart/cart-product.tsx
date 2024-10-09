@@ -3,27 +3,22 @@
 import EditCartProductDialog from './edit-cart-product-dialog';
 import RemoveAlertDialog from './remove-alert-dialog';
 import { useState } from 'react';
-import { Product } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Trash2, Pen } from 'lucide-react';
+import { CartProduct as CartProductType } from '@/lib/features/cart/cartSlice';
 
-type CartProductProps = {
-    product: Product
-    quantity: number
-}
-
-export default function CartProduct({ product, quantity }: CartProductProps) {
+export default function CartProduct({ ...cartProduct }: CartProductType) {
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [isRemoveAlertDialogOpen, setIsRemoveAlertDialogOpen] = useState(false);
 
     return (
         <div className='flex gap-3 py-2'>
-            <img src={product.image} alt={product.title} className='size-20 my-auto' />
+            <img src={cartProduct.image} alt={cartProduct.title} className='size-20 my-auto' />
 
             <div className='flex-1 space-y-1'>
-                <p className='font-semibold'>{product.title}</p>
-                <p>${product.price}</p>
-                <p className='text-accent'>Quantity: {quantity}</p>
+                <p className='font-semibold'>{cartProduct.title}</p>
+                <p>${cartProduct.price}</p>
+                <p className='text-accent'>Quantity: {cartProduct.quantity}</p>
             </div>
 
 
@@ -53,15 +48,14 @@ export default function CartProduct({ product, quantity }: CartProductProps) {
                 isEditDialogOpen={isEditDialogOpen}
                 setIsEditDialogOpen={setIsEditDialogOpen}
                 setIsRemoveAlertDialogOpen={setIsRemoveAlertDialogOpen}
-                product={product}
-                quantity={quantity}
+                selectedProduct={cartProduct}
             />
 
             <RemoveAlertDialog
                 isRemoveAlertDialogOpen={isRemoveAlertDialogOpen}
                 setIsRemoveAlertDialogOpen={setIsRemoveAlertDialogOpen}
                 setIsEditDialogOpen={setIsEditDialogOpen}
-                product={product}
+                selectedProduct={cartProduct}
             />
         </div>
     )

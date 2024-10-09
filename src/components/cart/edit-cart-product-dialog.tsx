@@ -1,43 +1,53 @@
 'use client';
 
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Product } from "@/lib/types";
 import { Minus, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { decrementQty, incrementQty } from "@/lib/features/cart/cartSlice";
-import { updateCartProductAsync } from "@/lib/features/cart/cartThunks";
+import { CartProduct } from "@/lib/features/cart/cartSlice";
+import { updateCartProduct } from "@/lib/features/cart/cartSlice";
 
 type EditCartProductDialogProps = {
     isEditDialogOpen: boolean
     setIsEditDialogOpen: Dispatch<SetStateAction<boolean>>
     setIsRemoveAlertDialogOpen: Dispatch<SetStateAction<boolean>>
-    product: Product
-    quantity: number
+    selectedProduct: CartProduct
 }
 
-export default function EditCartProductDialog({ isEditDialogOpen, setIsEditDialogOpen, setIsRemoveAlertDialogOpen, product, quantity }: EditCartProductDialogProps) {
+export default function EditCartProductDialog({ isEditDialogOpen, setIsEditDialogOpen, setIsRemoveAlertDialogOpen, selectedProduct }: EditCartProductDialogProps) {
     const { products } = useAppSelector(state => state.cartReducer);
     const dispatch = useAppDispatch();
 
-    const selectedProduct = products.find(cartProduct => cartProduct.product.id === product.id);
+    const [newQuantity, setNewQuantity] = useState(selectedProduct.quantity);
 
-    const handleUpdateProduct = () => {
-        if (selectedProduct) {
-            dispatch(updateCartProductAsync({ product, quantity: selectedProduct.quantity }));
+    const handleUpdateProduct = async () => {
+        const existingProduct = products.find(cartProduct => cartProduct.id === selectedProduct.id);
+
+        if (!existingProduct) return;
+
+        try {
+            await dispatch(updateCartProduct({
+                ...existingProduct,
+                quantity: newQuantity
+            })).unwrap();
+
             setIsEditDialogOpen(false);
+        } catch (err) {
+            console.error(err);
         }
     }
 
     const handleDecrement = () => {
-        if (quantity === 1) {
+        if (newQuantity === 1) {
             setIsRemoveAlertDialogOpen(true);
         } else {
-            dispatch(decrementQty(product.id));
+            setNewQuantity(newQuantity - 1);
         }
     }
+
+    const handleIncrement = () => setNewQuantity(newQuantity + 1);
 
     return (
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
@@ -48,11 +58,11 @@ export default function EditCartProductDialog({ isEditDialogOpen, setIsEditDialo
                 </DialogHeader>
 
                 <div className="flex gap-3">
-                    <img src={product.image} alt={product.title} className='size-20 my-auto' />
+                    <img src={selectedProduct.image} alt={selectedProduct.title} className='size-20 my-auto' />
 
                     <div className='flex-1 space-y-1'>
-                        <p className='font-semibold'>{product.title}</p>
-                        <p>${product.price}</p>
+                        <p className='font-semibold'>{selectedProduct.title}</p>
+                        <p>${selectedProduct.price}</p>
                     </div>
                 </div>
 
@@ -61,7 +71,7 @@ export default function EditCartProductDialog({ isEditDialogOpen, setIsEditDialo
                         name='quantity'
                         type='text'
                         className='text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
-                        value={quantity}
+                        value={newQuantity}
                         readOnly
                     />
                     <Button
@@ -74,7 +84,7 @@ export default function EditCartProductDialog({ isEditDialogOpen, setIsEditDialo
                     <Button
                         variant='ghost'
                         className='px-3 absolute inset-y-0 right-0'
-                        onClick={() => dispatch(incrementQty(product.id))}
+                        onClick={handleIncrement}
                     >
                         <Plus size={12} strokeWidth={1} />
                     </Button>

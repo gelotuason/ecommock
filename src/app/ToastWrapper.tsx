@@ -4,25 +4,25 @@ import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useToast } from "@/hooks/use-toast";
 import { ToastProvider } from "@/components/ui/toast";
-import { clearCartAlert } from "@/lib/features/cart/cartSlice";
+import { clearMessages } from "@/lib/features/cart/cartSlice";
 import { clearWishlistAlert } from "@/lib/features/wishlist/wishlistSlice";
 
-
 export default function ToastWrapper({ children }: { children: React.ReactNode }) {
-    const cartAlert = useAppSelector(state => state.cartReducer.alert);
+    const cartNotification = useAppSelector(state => state.cartReducer.notification);
+    const cartError = useAppSelector(state => state.cartReducer.error);
     const wishlistAlert = useAppSelector(state => state.wishlistReducer.alert);
     const dispatch = useAppDispatch();
     const { toast } = useToast();
 
     useEffect(() => {
-        if (cartAlert.message) {
+        if (cartNotification.message) {
             toast({
-                title: cartAlert.message.toString(),
-                description: cartAlert.productName,
+                title: cartNotification.message.toString(),
+                description: cartNotification.productName,
                 duration: 3000,
             });
 
-            dispatch(clearCartAlert());
+            dispatch(clearMessages());
         }
 
         if (wishlistAlert.message) {
@@ -34,7 +34,17 @@ export default function ToastWrapper({ children }: { children: React.ReactNode }
 
             dispatch(clearWishlistAlert());
         }
-    }, [cartAlert, wishlistAlert]);
+
+        if (cartError) {
+            toast({
+                variant: 'destructive',
+                description: cartError,
+                duration: 3000,
+            });
+
+            dispatch(clearMessages());
+        }
+    }, [cartNotification, cartError, wishlistAlert]);
 
     return <ToastProvider>{children}</ToastProvider>
 }

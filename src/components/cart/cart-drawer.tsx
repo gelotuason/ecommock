@@ -28,7 +28,7 @@ export default function CartDrawer({ isOpen, setIsOpen }: CartDrawerProps) {
 
                 <div className='divide-y px-4 overflow-auto'>
                     {products && products.map((cartProduct, index) => (
-                        <CartProduct key={index} product={cartProduct.product} quantity={cartProduct.quantity} />
+                        <CartProduct key={index} {...cartProduct} />
                     ))}
                 </div>
 
