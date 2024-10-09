@@ -18,7 +18,7 @@ export default function Authentication() {
     useEffect(() => {
         if (isAuthenticated && !isRedirecting) {
             setIsRedirecting(true);
-            router.push('/');
+            router.back();
         }
     }, [isAuthenticated, router, isRedirecting]);
 
