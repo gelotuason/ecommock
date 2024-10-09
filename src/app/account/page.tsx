@@ -5,21 +5,21 @@ import { useRouter } from "next/navigation";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { logout } from "@/lib/features/auth/authSlice";
+import { signout } from "@/lib/features/auth/authSlice";
 import { useEffect, useState } from "react";
 
 export default function MyAccount() {
-    const { isAuthenticated, user } = useAppSelector(state => state.authReducer);
+    const { user } = useAppSelector(state => state.authReducer);
     const dispatch = useAppDispatch();
     const router = useRouter();
     const [isRedirecting, setIsRedirecting] = useState(false);
 
     useEffect(() => {
-        if (!isAuthenticated && !isRedirecting) {
+        if (!user.isAuthenticated && !isRedirecting) {
             setIsRedirecting(true);
             router.push('/auth');
         }
-    }, [isAuthenticated, router, isRedirecting]);
+    }, [user.isAuthenticated, router, isRedirecting]);
 
     return (
         <main className="px-4 py-8 flex-1">
@@ -38,11 +38,11 @@ export default function MyAccount() {
 
             <div className="flex flex-col divide-y rounded border">
                 <button className="px-4 py-2 text-start bg-background rounded-t">Dashboard</button>
-                <Link href='/' className="px-4 py-2 hover:bg-background">Your wishlist</Link>
-                <button onClick={() => dispatch(logout())} className="px-4 py-2 text-start hover:bg-background">Logout</button>
+                <Link href='/wishlist' className="px-4 py-2 hover:bg-background">Your wishlist</Link>
+                <button onClick={() => dispatch(signout())} className="px-4 py-2 text-start hover:bg-background">Logout</button>
             </div>
 
-            <div className="mt-4 text-lg">Welcome <span className="font-medium">{user.username?.slice(0, 3)}</span>!</div>
+            <div className="mt-4 text-lg">Welcome <span className="font-medium">{user.firstname}</span>!</div>
 
             <section className="mt-8">
                 <h2 className="text-2xl font-medium">Order history</h2>
@@ -57,7 +57,7 @@ export default function MyAccount() {
                     <div className="flex justify-center">
                         <p className="px-4 py-2 w-full my-auto">Name</p>
                         <Separator orientation="vertical" className="h-auto" />
-                        <p className="px-4 py-2 w-full my-auto">{user.username?.slice(0, 3)}</p>
+                        <p className="px-4 py-2 w-full my-auto">{user.firstname} {user.lastname}</p>
                     </div>
                     <Separator />
                     <div className="flex justify-center">

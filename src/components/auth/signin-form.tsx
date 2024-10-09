@@ -7,29 +7,29 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { login } from "@/lib/features/auth/authSlice";
+import { signin } from "@/lib/features/auth/authSlice";
 
 const signinSchema = z.object({
     username: z.string(),
-    password: z.string()
+    password: z.string(),
 });
 
 export default function SigninForm() {
     // TODO: add loading when submitting
 
-    const { error } = useAppSelector(state => state.authReducer);
+    const error = useAppSelector(state => state.authReducer.errors.signin);
     const dispatch = useAppDispatch();
 
     const signinForm = useForm<z.infer<typeof signinSchema>>({
         resolver: zodResolver(signinSchema),
         defaultValues: {
-            username: "mor_2314",
-            password: "83r5^_",
+            username: '',
+            password: '',
         },
     });
 
     const handleSignin = (values: z.infer<typeof signinSchema>) => {
-        dispatch(login({ username: values.username, password: values.password }));
+        dispatch(signin({ username: values.username, password: values.password }));
     };
 
     return (

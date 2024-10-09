@@ -9,9 +9,11 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export default function Authentication() {
-    const { isAuthenticated } = useAppSelector(state => state.authReducer);
+    const { isAuthenticated } = useAppSelector(state => state.authReducer.user);
     const router = useRouter();
+
     const [isRedirecting, setIsRedirecting] = useState(false);
+    const [activeTab, setActiveTab] = useState('signin');
 
     useEffect(() => {
         if (isAuthenticated && !isRedirecting) {
@@ -22,7 +24,7 @@ export default function Authentication() {
 
     return (
         <main className="flex-1 container py-24 px-4 mx-auto max-w-[400px]">
-            <Tabs defaultValue="signin">
+            <Tabs value={activeTab} onValueChange={setActiveTab}>
                 <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="signin">Sign in</TabsTrigger>
                     <TabsTrigger value="signup">Sign up</TabsTrigger>
@@ -42,11 +44,11 @@ export default function Authentication() {
                 <TabsContent value="signup">
                     <Card>
                         <CardHeader>
-                            <CardTitle className="text-xl">Sign up an account.</CardTitle>
+                            <CardTitle className="text-xl">Create an account.</CardTitle>
                             <CardDescription className="sr-only"></CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <SignupForm />
+                            <SignupForm setActiveTab={setActiveTab} />
                         </CardContent>
                         <CardFooter className="sr-only"></CardFooter>
                     </Card>

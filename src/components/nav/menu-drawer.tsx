@@ -12,7 +12,7 @@ type MenuDrawerProps = {
 }
 
 export default function MenuDrawer({ isOpen, setIsOpen }: MenuDrawerProps) {
-    const { isAuthenticated } = useAppSelector(state => state.authReducer);
+    const { isAuthenticated } = useAppSelector(state => state.authReducer.user);
 
     return (
         <Drawer open={isOpen} onOpenChange={setIsOpen} direction='left'>
