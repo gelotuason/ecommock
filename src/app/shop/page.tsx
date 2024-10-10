@@ -1,5 +1,5 @@
 import Collections from "@/components/collections";
-import ProductLayout from "./product-layout";
+import ProductList from "@/app/shop/product-list";
 import { Product } from "@/lib/types";
 import { categoryImages } from "@/lib/constants";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, } from "@/components/ui/breadcrumb";
@@ -47,7 +47,7 @@ export default async function Shop() {
 
             <Collections />
 
-            <ProductLayout products={products} />
+            <ProductList initialProducts={products} />
         </main>
     )
 }

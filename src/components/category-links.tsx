@@ -6,12 +6,13 @@ import { useEffect, useState } from "react";
 type CategoryLinksProps = {
     wrapperClassName?: string
     linkClassName?: string
+    onClick?: () => void
 }
 
 // TODO: return cached component
 
-export default function CategoryLinks({ wrapperClassName, linkClassName }: CategoryLinksProps) {
-    const [categories, setCategories] = useState<string[]>([])
+export default function CategoryLinks({ wrapperClassName, linkClassName, onClick }: CategoryLinksProps) {
+    const [categories, setCategories] = useState<string[]>([]);
 
     useEffect(() => {
         async function fetchCategories() {
@@ -26,7 +27,7 @@ export default function CategoryLinks({ wrapperClassName, linkClassName }: Categ
     return (
         <div className={wrapperClassName}>
             {categories.map((category, index) => (
-                <Link key={index} className={linkClassName} href={`/shop/${category}`}>
+                <Link onClick={onClick} key={index} className={linkClassName} href={`/shop/${category}`}>
                     {capitalizeFirstLetter(category)}
                 </Link>
             ))}

@@ -4,17 +4,16 @@ import { useState, Dispatch, SetStateAction } from "react";
 import { ListFilter, ArrowDownUp, LayoutList, Grid2X2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, DropdownMenuCheckboxItem, } from "@/components/ui/dropdown-menu";
-import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, DropdownMenuCheckboxItem, DropdownMenuRadioGroup, DropdownMenuRadioItem } from "@/components/ui/dropdown-menu";
 
-type Checked = DropdownMenuCheckboxItemProps["checked"];
+type ShopControlBarProps = {
+    setLayout: Dispatch<SetStateAction<string>>
+    sortBy: string
+    setSortBy: Dispatch<SetStateAction<'bestSelling' | 'titleAsc' | 'titleDesc' | 'priceAsc' | 'priceDesc' | ''>>
+    setFilterBy?: string
+}
 
-export default function ShopControlBar({ setLayout }: { setLayout: Dispatch<SetStateAction<string>> }) {
-    const [showBestselling, setShowBestselling] = useState<Checked>(false);
-    const [showAtoZ, setShowAtoZ] = useState<Checked>(false);
-    const [showZtoA, setShowZtoA] = useState<Checked>(false);
-    const [showPriceLowToHigh, setShowPriceLowToHigh] = useState<Checked>(false);
-    const [showPriceHighToLow, setShowPriceHighToLow] = useState<Checked>(false);
+export default function ShopControlBar({ setLayout, sortBy, setSortBy }: ShopControlBarProps) {
 
     return (
         <div className="flex justify-between items-center">
@@ -46,36 +45,13 @@ export default function ShopControlBar({ setLayout }: { setLayout: Dispatch<SetS
                     <DropdownMenuContent className="w-56">
                         <DropdownMenuLabel>Sort by:</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuCheckboxItem
-                            checked={showBestselling}
-                            onCheckedChange={setShowBestselling}
-                        >
-                            Best selling
-                        </DropdownMenuCheckboxItem>
-                        <DropdownMenuCheckboxItem
-                            checked={showAtoZ}
-                            onCheckedChange={setShowAtoZ}
-                        >
-                            Alphabetically, A-Z
-                        </DropdownMenuCheckboxItem>
-                        <DropdownMenuCheckboxItem
-                            checked={showZtoA}
-                            onCheckedChange={setShowZtoA}
-                        >
-                            Alphabetically, Z-A
-                        </DropdownMenuCheckboxItem>
-                        <DropdownMenuCheckboxItem
-                            checked={showPriceLowToHigh}
-                            onCheckedChange={setShowPriceLowToHigh}
-                        >
-                            Price, low to high
-                        </DropdownMenuCheckboxItem>
-                        <DropdownMenuCheckboxItem
-                            checked={showPriceHighToLow}
-                            onCheckedChange={setShowPriceHighToLow}
-                        >
-                            Price, high to low
-                        </DropdownMenuCheckboxItem>
+                        <DropdownMenuRadioGroup value={sortBy}>
+                            <DropdownMenuRadioItem value='bestSelling' onClick={() => setSortBy('bestSelling')}>Best selling</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value='titleAsc' onClick={() => setSortBy('titleAsc')}>Alphabetically, A-Z</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value='titleDesc' onClick={() => setSortBy('titleDesc')}>Alphabetically, Z-A</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value='priceAsc' onClick={() => setSortBy('priceAsc')}>Price, low to high</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value='priceDesc' onClick={() => setSortBy('priceDesc')}>Price, high to low</DropdownMenuRadioItem>
+                        </DropdownMenuRadioGroup>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>

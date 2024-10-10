@@ -3,7 +3,6 @@ import Bestsellers from "@/components/bestsellers";
 import { Truck, Undo2, CreditCard, PhoneCall } from "lucide-react";
 
 export default function Home() {
-
   return (
     <main>
       <Hero />

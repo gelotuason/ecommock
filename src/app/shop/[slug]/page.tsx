@@ -1,5 +1,5 @@
 import Collections from "@/components/collections";
-import ProductLayout from "../product-layout";
+import ProductList from "@/app/shop/product-list";
 import { categoryImages } from "@/lib/constants";
 import { capitalizeFirstLetter } from "@/utils/string-utils";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, } from "@/components/ui/breadcrumb";
@@ -76,7 +76,7 @@ export default async function ShopByCategory({ params }: { params: { slug: strin
 
             <Collections />
 
-            <ProductLayout products={products} />
+            <ProductList initialProducts={products} />
         </main>
     )
 }
