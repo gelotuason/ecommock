@@ -1,15 +1,18 @@
 import { Product } from '@/lib/types';
-import { AlertState } from '../cart/cartSlice';
+import { NotificationState } from '../cart/cartSlice';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+// TODO: add user id (check cart state)
+// TODO: change wishlists -> products
+
 type WishlistState = {
-    wishlists: Product[]
-    alert: AlertState
+    products: Product[]
+    notification: NotificationState
 }
 
 const initialState: WishlistState = {
-    wishlists: [],
-    alert: {
+    products: [],
+    notification: {
         message: null,
         productId: null,
         productName: null,
@@ -21,20 +24,20 @@ const wishlistSlice = createSlice({
     initialState,
     reducers: {
         addToWishlist: (state, action: PayloadAction<Product>) => {
-            state.wishlists.push(action.payload);
+            state.products.push(action.payload);
 
-            state.alert = {
+            state.notification = {
                 message: 'Added to wishlist ✅',
                 productName: action.payload.title,
             };
         },
         removeFromWishlist: (state, action: PayloadAction<number>) => {
-            const updatedWishlists = state.wishlists.filter(wishlist => wishlist.id !== action.payload);
+            const updatedWishlists = state.products.filter(product => product.id !== action.payload);
 
-            state.wishlists = updatedWishlists;
+            state.products = updatedWishlists;
         },
         clearWishlistAlert: (state) => {
-            state.alert = {
+            state.notification = {
                 message: null,
                 productId: null,
                 productName: null,

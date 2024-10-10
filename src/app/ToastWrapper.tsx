@@ -10,7 +10,7 @@ import { clearWishlistAlert } from "@/lib/features/wishlist/wishlistSlice";
 export default function ToastWrapper({ children }: { children: React.ReactNode }) {
     const cartNotification = useAppSelector(state => state.cartReducer.notification);
     const cartError = useAppSelector(state => state.cartReducer.error);
-    const wishlistAlert = useAppSelector(state => state.wishlistReducer.alert);
+    const wishlistNotification = useAppSelector(state => state.wishlistReducer.notification);
     const dispatch = useAppDispatch();
     const { toast } = useToast();
 
@@ -25,10 +25,10 @@ export default function ToastWrapper({ children }: { children: React.ReactNode }
             dispatch(clearMessages());
         }
 
-        if (wishlistAlert.message) {
+        if (wishlistNotification.message) {
             toast({
-                title: wishlistAlert.message.toString(),
-                description: wishlistAlert.productName,
+                title: wishlistNotification.message.toString(),
+                description: wishlistNotification.productName,
                 duration: 3000,
             });
 
@@ -44,7 +44,7 @@ export default function ToastWrapper({ children }: { children: React.ReactNode }
 
             dispatch(clearMessages());
         }
-    }, [cartNotification, cartError, wishlistAlert]);
+    }, [cartNotification, cartError, wishlistNotification]);
 
     return <ToastProvider>{children}</ToastProvider>
 }

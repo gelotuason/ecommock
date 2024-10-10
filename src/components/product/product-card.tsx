@@ -6,13 +6,13 @@ import { ShoppingCart, Heart, Search, X } from "lucide-react";
 import { Product } from "@/lib/types";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useEffect, useState } from "react";
-import { addToCartAsync } from "@/lib/features/cart/cartThunks";
+import { addToCart } from "@/lib/features/cart/cartSlice";
 import { addToWishlist, removeFromWishlist } from "@/lib/features/wishlist/wishlistSlice";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 
 export default function ProductCard({ product }: { product: Product }) {
-    const { wishlists } = useAppSelector(state => state.wishlistReducer);
+    const wishlists = useAppSelector(state => state.wishlistReducer.products);
     const dispatch = useAppDispatch();
 
     const [productDetailDialog, toggleProductDetailDialog] = useState(false);
@@ -58,7 +58,7 @@ export default function ProductCard({ product }: { product: Product }) {
                         <button
                             title="Add to cart"
                             className='hover:bg-black hover:rounded-s hover:text-white transition-all duration-300 p-1'
-                            onClick={() => dispatch(addToCartAsync({ product, quantity: 1 }))}
+                            onClick={() => dispatch(addToCart({ ...product, quantity: 1 }))}
                         >
                             <ShoppingCart size={20} strokeWidth={1} />
                         </button>
@@ -90,7 +90,7 @@ export default function ProductCard({ product }: { product: Product }) {
                 <p className="font-medium">{product.title}</p>
             </div>
 
-            <ProductDetail open={productDetailDialog} onOpenChange={toggleProductDetailDialog} product={product} />
+            <ProductDetail open={productDetailDialog} onOpenChange={toggleProductDetailDialog} selectedProduct={product} />
         </div>
     )
 }

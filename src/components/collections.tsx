@@ -12,17 +12,16 @@ import 'swiper/css/pagination';
 import '@/app/css/collections-swiper.css';
 
 export default function Collections() {
-    // TODO: change products state name to collections
     // TODO: avoid returning to 1st slide when user clicked or rerendering
     // TODO: error and loading states
     // TODO: caching
 
-    const [products, setProducts] = useState<Product[] | null>(null);
+    const [collections, setCollections] = useState<Product[] | null>(null);
 
     useEffect(() => {
         async function fetchCollections() {
             try {
-                const tempCollections: Product[] = [];
+                const collectionProducts: Product[] = [];
 
                 const [electronics, jewelery, mens, womens] = await Promise.all([
                     fetch('https://fakestoreapi.com/products/category/electronics?limit=1'),
@@ -31,14 +30,14 @@ export default function Collections() {
                     fetch(`https://fakestoreapi.com/products/category/women's%20clothing?limit=1`),
                 ]);
 
-                tempCollections.push(
+                collectionProducts.push(
                     ...await electronics.json(),
                     ...await jewelery.json(),
                     ...await mens.json(),
                     ...await womens.json(),
                 )
 
-                setProducts(tempCollections);
+                setCollections(collectionProducts);
             } catch (err) {
                 console.error(err);
             }
@@ -56,7 +55,7 @@ export default function Collections() {
                 slidesPerView={2}
                 navigation={{ enabled: true }}
             >
-                {products && products.map(collection => (
+                {collections && collections.map(collection => (
                     <SwiperSlide key={collection.id}>
                         <div className="text-center">
                             <Link

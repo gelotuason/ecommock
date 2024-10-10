@@ -8,15 +8,15 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useAppDispatch } from "@/lib/hooks";
-import { addToCartAsync } from "@/lib/features/cart/cartThunks";
+import { addToCart } from "@/lib/features/cart/cartSlice";
 
 type ProductDetailProps = {
     open: boolean
     onOpenChange: Dispatch<SetStateAction<boolean>>
-    product: Product
+    selectedProduct: Product
 }
 
-export default function ProductDetail({ open, onOpenChange, product }: ProductDetailProps) {
+export default function ProductDetail({ open, onOpenChange, selectedProduct }: ProductDetailProps) {
     const dispatch = useAppDispatch();
 
     return (
@@ -27,13 +27,13 @@ export default function ProductDetail({ open, onOpenChange, product }: ProductDe
                     <DialogDescription className="sr-only"></DialogDescription>
                 </DialogHeader>
                 <div className="space-y-1">
-                    <img src={product.image} alt={product.title} className="h-[200px] mx-auto" />
+                    <img src={selectedProduct.image} alt={selectedProduct.title} className="h-[200px] mx-auto" />
 
                     <div className="px-1 space-y-1 text-sm text-accent">
-                        <p className="text-black">${product.price}</p>
-                        <ProductRating className="flex" productRating={product.rating.rate} />
-                        <p className="text-black font-medium">{product.title}</p>
-                        <p className="text-accent">{product.description}</p>
+                        <p className="text-black">${selectedProduct.price}</p>
+                        <ProductRating className="flex" productRating={selectedProduct.rating.rate} />
+                        <p className="text-black font-medium">{selectedProduct.title}</p>
+                        <p className="text-accent">{selectedProduct.description}</p>
                     </div>
                 </div>
 
@@ -44,7 +44,7 @@ export default function ProductDetail({ open, onOpenChange, product }: ProductDe
                             size='icon'
                             variant='ghost'
                             className="px-2"
-                            onClick={() => dispatch(addToCartAsync({ product, quantity: 1 }))}
+                            onClick={() => dispatch(addToCart({ ...selectedProduct, quantity: 1 }))}
                         >
                             <ShoppingCart strokeWidth={1} />
                         </Button>

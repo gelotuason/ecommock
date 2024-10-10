@@ -6,7 +6,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { useAppSelector } from "@/lib/hooks";
 
 export default function Wishlist() {
-    const { wishlists } = useAppSelector(state => state.wishlistReducer);
+    const wishlists = useAppSelector(state => state.wishlistReducer.products);
 
     return (
         <main className="px-4 py-8 flex flex-col flex-1">
