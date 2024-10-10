@@ -23,9 +23,9 @@ export default function Authentication() {
     }, [isAuthenticated, router, isRedirecting]);
 
     return (
-        <main className="flex-1 container py-24 px-4 mx-auto max-w-[400px]">
+        <main className="flex-1 container py-10 px-4 mx-auto max-w-[400px]">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
-                <TabsList className="grid w-full grid-cols-2">
+                <TabsList className="grid w-full grid-cols-2 bg-white">
                     <TabsTrigger value="signin">Sign in</TabsTrigger>
                     <TabsTrigger value="signup">Sign up</TabsTrigger>
                 </TabsList>

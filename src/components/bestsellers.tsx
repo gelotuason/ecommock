@@ -38,7 +38,7 @@ export default function Bestsellers() {
     }, []);
 
     return (
-        <section className="px-3 py-4">
+        <section className="px-4 py-10">
             <h1 className="text-4xl text-center">Bestsellers</h1>
             <h2 className="text-lg text-center text-accent mb-4">Don&apos;t miss our bestsellers of the month!</h2>
 

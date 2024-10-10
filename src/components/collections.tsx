@@ -47,7 +47,7 @@ export default function Collections() {
     }, []);
 
     return (
-        <section className="px-4 py-8">
+        <section className="px-4 py-10">
             <h1 className="text-lg mb-3 text-center font-medium">Our Collections</h1>
             <Swiper
                 modules={[Navigation]}

@@ -22,7 +22,7 @@ export default function MyAccount() {
     }, [user.isAuthenticated, router, isRedirecting]);
 
     return (
-        <main className="px-4 py-8 flex-1">
+        <main className="px-4 py-10 flex-1">
             <h2 className="text-4xl mb-2 text-center">My Account</h2>
             <Breadcrumb className="mb-4 flex justify-center">
                 <BreadcrumbList>
