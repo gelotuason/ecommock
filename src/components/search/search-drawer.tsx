@@ -1,10 +1,14 @@
+'use client';
+
 import Link from 'next/link';
-import Image from 'next/image';
-import CategoryLinks from '../category-links';
+import CategoryLinks from '@/components/category-links';
+import ProductRating from '@/components/product/product-rating';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { SearchIcon, X, Star } from 'lucide-react';
+import { SearchIcon, X } from 'lucide-react';
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger, } from "@/components/ui/drawer";
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { searchUpdated } from '@/lib/features/search/searchSlice';
 
 type SearchDrawerProps = {
 	isOpen: boolean
@@ -15,6 +19,8 @@ export default function SearchDrawer({ isOpen, setIsOpen }: SearchDrawerProps) {
 	// TODO: search functionality
 	// TODO: add more results button (when user searched)
 	// TODO: add searched product listing
+	const { search, products } = useAppSelector(state => state.searchReducer)
+	const dispatch = useAppDispatch();
 
 	return (
 		<Drawer open={isOpen} onOpenChange={setIsOpen} direction='top'>
@@ -28,54 +34,37 @@ export default function SearchDrawer({ isOpen, setIsOpen }: SearchDrawerProps) {
 					</div>
 				</DrawerHeader>
 				<DrawerDescription className='sr-only'></DrawerDescription>
-				<div className='space-y-4 px-4 text-center py-2'>
-					{/* search input */}
+				<div className='space-y-4 px-4 py-2'>
 					<div className='relative'>
-						<Input type='text' className='border-accent p-5' placeholder='Search products' />
+						<Input
+							type='text'
+							className='border-accent p-5'
+							placeholder='Search products'
+							value={search}
+							onChange={(e) => dispatch(searchUpdated(e.target.value))}
+						/>
 						<SearchIcon strokeWidth={1} className='absolute inset-y-0 right-2 h-full' />
 					</div>
-					{/* end of search input */}
 
-					{/* quick search categories */}
-					<div className='space-y-1'>
+					<div className='space-y-1 text-center'>
 						<p className='text-lg'>Quick Search:</p>
-						<CategoryLinks wrapperClassName='divide-x-2' linkClassName='px-2 text-sm' />
+						<CategoryLinks onClick={() => setIsOpen()} wrapperClassName='divide-x-2' linkClassName='px-2 text-sm' />
 					</div>
-					{/* end of quick search categories */}
 
-					<div className='grid grid-cols-2 gap-x-2 gap-y-4 py-4'>
-						{/* product 1 */}
-						<div>
-							{/* product image */}
-							<div className="relative h-[120px] mb-2 py-2">
-								<Link
-									href='/'
-									className=""
-								>
-									<Image
-										src='/slides-img-3.jpg'
-										fill
-										alt="Best Seller 1"
-										className="object-cover"
-									/>
-								</Link>
-							</div>
-							{/* end of product image */}
-
-							{/* product details */}
-							<div>
-								<p className="text-lg">title</p>
-								<div className="flex justify-center">
-									{Array.from({ length: 5 }).map((_, index) => (
-										<Star key={index} fill="black" size={16} />
-									))}
+					{products && <div className='grid grid-cols-2 gap-x-3 gap-y-8'>
+						{products.map(product => (
+							<Link key={product.id} href='/' onClick={() => setIsOpen()}>
+								<div className='bg-white'>
+									<img src={product.image} alt={product.title} className="h-[128px] mx-auto" />
 								</div>
-								<p className="text-lg">$36.00</p>
-							</div>
-							{/* end of product details */}
-						</div>
-						{/* end of product 1 */}
-					</div>
+								<div className="mt-2 px-1 space-y-1 text-sm">
+									<p>${product.price}</p>
+									<ProductRating className="text-accent flex" productRating={product.rating.rate} />
+									<p className="font-medium">{product.title}</p>
+								</div>
+							</Link>
+						))}
+					</div>}
 				</div>
 				<DrawerFooter className='sr-only'>
 					<Button>Submit</Button>
