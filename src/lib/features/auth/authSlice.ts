@@ -54,9 +54,6 @@ export const signin = createAsyncThunk('auth/signin', async (signinData: SigninD
         const state = thunkAPI.getState() as RootState;
         const user = state.authReducer.users.find(userData => userData.username === signinData.username);
 
-        if (!user) return thunkAPI.rejectWithValue('No user found. Please sign up to continue.');
-        if (user.password !== signinData.password) return thunkAPI.rejectWithValue('Incorrect password.');
-
         const res = await fetch('https://fakestoreapi.com/auth/login', {
             method: 'POST',
             headers: {
@@ -70,6 +67,8 @@ export const signin = createAsyncThunk('auth/signin', async (signinData: SigninD
 
         await res.json();
 
+        if (!user) return thunkAPI.rejectWithValue('No user found. Please sign up to continue.');
+        if (user.password !== signinData.password) return thunkAPI.rejectWithValue('Incorrect password.');
         if (!res.ok) return thunkAPI.rejectWithValue('Failed to sign in. Please try again.');
 
         return user;
