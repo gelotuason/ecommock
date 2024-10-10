@@ -9,7 +9,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import '@/app/css/collections-swiper.css';
+import '@/app/css/swiper.css';
 
 export default function Collections() {
     // TODO: avoid returning to 1st slide when user clicked or rerendering
@@ -62,7 +62,7 @@ export default function Collections() {
                                 href={`/shop/${collection.category}`}
                                 className="bg-white flex mb-1 p-2 rounded-full"
                             >
-                                <img src={collection.image} alt={collection.category} className="h-[100px] w-[60px] mx-auto" />
+                                <img src={collection.image} alt={collection.category} className="h-[100px] mx-auto object-contain" />
                             </Link>
                             <p className="text-lg">{capitalizeFirstLetter(collection.category)}</p>
                         </div>

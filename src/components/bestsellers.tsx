@@ -10,7 +10,7 @@ import { useSwiper } from "swiper/react";
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import '@/app/css/bestsellers-swiper.css';
+import '@/app/css/swiper.css';
 
 export default function Bestsellers() {
     // TODO: swiper nav button disabled on last slide
@@ -38,7 +38,7 @@ export default function Bestsellers() {
     }, []);
 
     return (
-        <section className="px-3 py-4" >
+        <section className="px-3 py-4">
             <h1 className="text-4xl text-center">Bestsellers</h1>
             <h2 className="text-lg text-center text-accent mb-4">Don&apos;t miss our bestsellers of the month!</h2>
 
@@ -49,6 +49,7 @@ export default function Bestsellers() {
                     slidesPerView={2}
                     navigation={{ enabled: false }}
                     pagination={{ clickable: true }}
+                    style={{ paddingBottom: '4rem' }}
                 >
                     {bestsellers && bestsellers.map((bestseller) => (
                         <SwiperSlide key={bestseller.id}>

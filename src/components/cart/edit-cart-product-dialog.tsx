@@ -58,7 +58,7 @@ export default function EditCartProductDialog({ isEditDialogOpen, setIsEditDialo
                 </DialogHeader>
 
                 <div className="flex gap-3">
-                    <img src={selectedProduct.image} alt={selectedProduct.title} className='size-20 my-auto' />
+                    <img src={selectedProduct.image} alt={selectedProduct.title} className='size-20 my-auto object-contain' />
 
                     <div className='flex-1 space-y-1'>
                         <p className='font-semibold'>{selectedProduct.title}</p>

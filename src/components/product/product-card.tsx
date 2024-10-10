@@ -51,8 +51,10 @@ export default function ProductCard({ product }: { product: Product }) {
 
     return (
         <div>
-            <div className="relative bg-white">
-                <img src={product.image} alt={product.title} className="h-[128px] mx-auto bg-white" />
+            <div className="relative">
+                <div className="bg-white">
+                    <img src={product.image} alt={product.title} className="h-[128px] mx-auto object-contain" />
+                </div>
                 <div className="absolute inset-x-0 bottom-2">
                     <div className="bg-[#f5f5f5] rounded flex items-center w-max divide-x shadow-lg mx-auto">
                         <button

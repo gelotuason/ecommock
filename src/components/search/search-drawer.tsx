@@ -55,7 +55,7 @@ export default function SearchDrawer({ isOpen, setIsOpen }: SearchDrawerProps) {
 						{products.map(product => (
 							<Link key={product.id} href='/' onClick={() => setIsOpen()}>
 								<div className='bg-white'>
-									<img src={product.image} alt={product.title} className="h-[128px] mx-auto" />
+									<img src={product.image} alt={product.title} className="h-[128px] object-contain mx-auto" />
 								</div>
 								<div className="mt-2 px-1 space-y-1 text-sm">
 									<p>${product.price}</p>

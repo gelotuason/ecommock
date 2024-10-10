@@ -27,7 +27,7 @@ export default function ProductDetail({ open, onOpenChange, selectedProduct }: P
                     <DialogDescription className="sr-only"></DialogDescription>
                 </DialogHeader>
                 <div className="space-y-1">
-                    <img src={selectedProduct.image} alt={selectedProduct.title} className="h-[200px] mx-auto" />
+                    <img src={selectedProduct.image} alt={selectedProduct.title} className="h-[200px] mx-auto object-contain" />
 
                     <div className="px-1 space-y-1 text-sm text-accent">
                         <p className="text-black">${selectedProduct.price}</p>

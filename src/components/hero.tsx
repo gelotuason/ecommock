@@ -6,23 +6,30 @@ import { getCategories } from '@/lib/api/products';
 import { useEffect, useState } from 'react';
 import { EffectFade, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from "swiper/react";
+
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
-import '../app/css/hero-swiper.css';
+import '@/app/css/swiper.css';
 
 export default function Hero() {
     // TODO: pagination bullet visibility
     // TODO: add error handling and loading
 
     const [categories, setCategories] = useState<string[] | null>(null);
+    const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
         async function fetchCategories() {
-            const fetchedCategories = await getCategories();
+            if (!isMounted) {
+                const fetchedCategories = await getCategories();
 
-            if (fetchedCategories) setCategories(fetchedCategories);
+                if (fetchedCategories) {
+                    setCategories(fetchedCategories);
+                    setIsMounted(true);
+                }
+            }
         }
 
         fetchCategories();
@@ -41,13 +48,14 @@ export default function Hero() {
                     0: { navigation: { enabled: false } },
                     768: { navigation: { enabled: true } },
                 }}
-                style={{ height: '500px' }}
+            // style={{ height: '500px' }}
             >
                 {categoryImages.map((category, index) => (
                     <SwiperSlide
                         key={index}
                         style={{
                             backgroundImage: `url('${category.imgSrc}')`,
+                            height: '500px',
                             backgroundSize: 'cover',
                             backgroundPosition: 'top 0 left -100px',
                             backgroundRepeat: 'no-repeat',

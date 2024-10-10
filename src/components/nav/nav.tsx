@@ -10,7 +10,7 @@ import { useAppSelector } from '@/lib/hooks';
 import { useDrawerState } from '@/hooks/use-drawer-state';
 
 export default function Nav() {
-    const { products } = useAppSelector(state => state.cartReducer);
+    const cartProducts = useAppSelector(state => state.cartReducer.products);
 
     const [menuDrawer, toggleMenuDrawer] = useDrawerState();
     const [searchDrawer, toggleSearchDrawer] = useDrawerState();
@@ -22,7 +22,9 @@ export default function Nav() {
                 <Menu strokeWidth={1} />
             </Button>
 
-            <Link href='/' className='text-xl flex-1 text-center'>ecommock.</Link>
+            <Link href='/' className='text-xl flex-1 text-center'>
+                <h1>ecommock.</h1>
+            </Link>
 
             <div className='flex gap-1'>
                 <Button size='icon' variant='link' title='Search' onClick={toggleSearchDrawer}>
@@ -30,7 +32,7 @@ export default function Nav() {
                 </Button>
                 <Button size='icon' variant='link' className='relative' title='Cart' onClick={toggleCartDrawer}>
                     <ShoppingCart strokeWidth={1} />
-                    {products && <small className='absolute top-0 -right-1 rounded-full w-5 bg-black text-white text-sm font-normal'>{products.length}</small>}
+                    {cartProducts && <small className='absolute top-0 -right-1 rounded-full w-5 bg-black text-white text-sm font-normal'>{cartProducts.length}</small>}
                 </Button>
             </div>
 
