@@ -1,3 +1,4 @@
+import { RootState } from '@/lib/store';
 import { Product } from '@/lib/types';
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 
@@ -31,16 +32,24 @@ const initialState: CartState = {
 	error: null,
 }
 
-// TODO: add userId
-
 export const addToCart = createAsyncThunk('cart/addToCart', async (product: CartProduct, thunkAPI) => {
+	const state = thunkAPI.getState() as RootState;
+	const userId = state.authReducer.user.id;
+
 	try {
 		const res = await fetch('https://fakestoreapi.com/carts/', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify(product),
+			body: JSON.stringify({
+				userId: userId,
+				date: Date.now(),
+				products: [{
+					productId: product.id,
+					quantity: product.quantity
+				}]
+			}),
 		});
 
 		if (!res.ok) return thunkAPI.rejectWithValue('Something went wrong. Please try again.');
@@ -68,6 +77,9 @@ export const removeFromCart = createAsyncThunk('cart/removeFromCart', async (pro
 });
 
 export const updateCartProduct = createAsyncThunk('cart/updateCartProduct', async (cartProduct: CartProduct, thunkAPI) => {
+	const state = thunkAPI.getState() as RootState;
+	const userId = state.authReducer.user.id;
+
 	try {
 		const res = await fetch(`https://fakestoreapi.com/carts/${cartProduct.id}`, {
 			method: 'PUT',
@@ -75,7 +87,7 @@ export const updateCartProduct = createAsyncThunk('cart/updateCartProduct', asyn
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
-				userId: 1,
+				userId: userId,
 				date: Date.now(),
 				products: [{ productId: cartProduct.id, quantity: cartProduct.quantity }]
 			}),
