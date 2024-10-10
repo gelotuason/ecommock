@@ -36,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full">
       <body
-        className={`${jost.className} ${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-full`}
+        className={`${jost.className} ${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-full bg-background`}
       >
         <StoreProvider>
           <ToastWrapper>
