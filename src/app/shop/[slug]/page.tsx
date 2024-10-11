@@ -37,12 +37,11 @@ async function getProductsByCategory(categoryName: string) {
         return data;
     } catch (err) {
         console.error(err);
-        throw new Error('Failed to fetch data.')
+        throw new Error('Failed to fetch data.');
     }
 }
 
-export default async function ShopByCategory({ params }: { params: { slug: string } }) {
-
+export default async function ShopCategory({ params }: { params: { slug: string } }) {
     const title = decodeURIComponent(capitalizeFirstLetter(params.slug)); // shop title
     const bgSrc = getBgSrc(params.slug);
 

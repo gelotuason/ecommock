@@ -1,6 +1,6 @@
 'use client';
 
-import ProductDetail from "./product-detail";
+import ProductQuickView from "@/components/product/product-quickview";
 import ProductRating from "@/components/product/product-rating";
 import { ShoppingCart, Heart, Search, X } from "lucide-react";
 import { Product } from "@/lib/types";
@@ -92,7 +92,7 @@ export default function ProductCard({ product }: { product: Product }) {
                 <p className="font-medium">{product.title}</p>
             </div>
 
-            <ProductDetail open={productDetailDialog} onOpenChange={toggleProductDetailDialog} selectedProduct={product} />
+            <ProductQuickView open={productDetailDialog} onOpenChange={toggleProductDetailDialog} selectedProduct={product} />
         </div>
     )
 }

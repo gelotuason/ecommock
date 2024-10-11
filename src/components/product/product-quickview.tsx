@@ -16,7 +16,7 @@ type ProductDetailProps = {
     selectedProduct: Product
 }
 
-export default function ProductDetail({ open, onOpenChange, selectedProduct }: ProductDetailProps) {
+export default function ProductQuickView({ open, onOpenChange, selectedProduct }: ProductDetailProps) {
     const dispatch = useAppDispatch();
 
     return (
