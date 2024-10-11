@@ -32,7 +32,7 @@ export default function ProductList({ initialProducts }: { initialProducts: Prod
     return (
         <section className="px-4 py-10">
             <ShopControlBar sortBy={sortBy} setSortBy={setSortBy} setLayout={setLayout} />
-            <div className={`grid ${layout} gap-x-3 gap-y-8 py-8`}>
+            <div className={`${layout} gap-x-3 gap-y-8 py-8`}>
                 {sortedAndFilteredProducts && sortedAndFilteredProducts.map(product => (
                     <ProductCard key={product.id} product={product} />
                 ))}

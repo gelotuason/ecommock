@@ -39,7 +39,7 @@ export default async function Shop() {
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbPage>Shop</BreadcrumbPage>
+                            <BreadcrumbPage className="text-white/90">Shop</BreadcrumbPage>
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>

@@ -25,7 +25,7 @@ export default function Wishlist() {
 
 
             {wishlists.length !== 0
-                ? <section className="grid grid-cols-2 gap-x-3 gap-y-8 py-10">
+                ? <section className="grid grid-cols-2 gap-x-3 gap-y-8 py-6">
                     {wishlists.map(wishlist => (
                         <ProductCard key={wishlist.id} product={wishlist} />
                     ))}

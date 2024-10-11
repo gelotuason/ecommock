@@ -60,14 +60,14 @@ export default function ShopControlBar({ setLayout, sortBy, setSortBy }: ShopCon
                 <Button
                     variant='ghost'
                     size='icon'
-                    onClick={() => setLayout('grid-cols-2 lg:grid-cols-3')}
+                    onClick={() => setLayout('grid grid-cols-2 lg:grid-cols-3')}
                 >
                     <Grid2X2 strokeWidth={1} size={20} />
                 </Button>
                 <Button
                     variant='ghost'
                     size='icon'
-                    onClick={() => setLayout('grid-cols-1')}
+                    onClick={() => setLayout('grid grid-cols-1')}
                 >
                     <LayoutList strokeWidth={1} size={20} />
                 </Button>
