@@ -1,14 +1,16 @@
 'use client';
 
 import ProductRating from "@/components/product/product-rating";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { Product } from "@/lib/types";
 import { Heart, ShoppingCart } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { addToCart } from "@/lib/features/cart/cartSlice";
+import { addToWishlist } from "@/lib/features/wishlist/wishlistSlice";
 
 type ProductDetailProps = {
     open: boolean
@@ -17,7 +19,35 @@ type ProductDetailProps = {
 }
 
 export default function ProductQuickView({ open, onOpenChange, selectedProduct }: ProductDetailProps) {
+    const wishlists = useAppSelector(state => state.wishlistReducer.products);
     const dispatch = useAppDispatch();
+
+    const [isAddedToWishlist, setIsAddedToWishlist] = useState(false);
+    const [wishlistBtnTooltip, setWishlistBtnTooltip] = useState('');
+
+    const pathname = usePathname();
+    const router = useRouter();
+
+    const existingInWishlist = wishlists.find(wishlist => wishlist.id === selectedProduct.id);
+
+    const handleWishlist = () => {
+        if (!isAddedToWishlist) {
+            dispatch(addToWishlist(selectedProduct));
+        } else {
+            onOpenChange(!open);
+            router.push('/wishlist');
+        }
+    }
+
+    useEffect(() => {
+        if (existingInWishlist !== undefined) {
+            setIsAddedToWishlist(true);
+            setWishlistBtnTooltip('Browse wishlist');
+        } else {
+            setIsAddedToWishlist(false);
+            setWishlistBtnTooltip('Add to wishlist');
+        }
+    }, [existingInWishlist, pathname]);
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -49,7 +79,13 @@ export default function ProductQuickView({ open, onOpenChange, selectedProduct }
                             <ShoppingCart strokeWidth={1} />
                         </Button>
 
-                        <Button size='icon' variant='ghost' className="px-2">
+                        <Button
+                            title={wishlistBtnTooltip}
+                            size='icon'
+                            variant='ghost'
+                            className={`${isAddedToWishlist && 'bg-black text-white'} px-2`}
+                            onClick={handleWishlist}
+                        >
                             <Heart strokeWidth={1} />
                         </Button>
                     </div>
