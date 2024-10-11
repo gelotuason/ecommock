@@ -37,7 +37,7 @@ startListening.withTypes<RootState, AppDispatch>()({
     },
     effect: async (action, listenerApi) => {
         listenerApi.cancelActiveListeners();
-        await listenerApi.delay(200);
+        await listenerApi.delay(300);
 
         const searchedProducts = await getSearchedProducts(listenerApi.getState().searchReducer.search);
 

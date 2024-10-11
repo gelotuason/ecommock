@@ -51,20 +51,24 @@ export default function SearchDrawer({ isOpen, setIsOpen }: SearchDrawerProps) {
 						<CategoryLinks onClick={() => setIsOpen()} wrapperClassName='divide-x-2' linkClassName='px-2 text-sm' />
 					</div>
 
-					{products && <div className='grid grid-cols-2 gap-x-3 gap-y-8'>
-						{products.map(product => (
-							<Link key={product.id} href='/' onClick={() => setIsOpen()}>
-								<div className='bg-white'>
-									<img src={product.image} alt={product.title} className="h-[128px] object-contain mx-auto" />
-								</div>
-								<div className="mt-2 px-1 space-y-1 text-sm">
-									<p>${product.price}</p>
-									<ProductRating className="text-accent flex" productRating={product.rating.rate} />
-									<p className="font-medium">{product.title}</p>
-								</div>
-							</Link>
-						))}
-					</div>}
+					{products && search
+						&& <>
+							<p className='text-2xl mb-4 text-center text-accent py-4'>Search for "<span className='text-black'>{search}</span>"</p>
+							<div className='grid grid-cols-2 gap-x-3 gap-y-8'>
+								{products.map(product => (
+									<Link key={product.id} href='/' onClick={() => setIsOpen()}>
+										<div className='bg-white'>
+											<img src={product.image} alt={product.title} className="h-[128px] object-contain mx-auto" />
+										</div>
+										<div className="mt-2 px-1 space-y-1 text-sm">
+											<p>${product.price}</p>
+											<ProductRating className="text-accent flex" productRating={product.rating.rate} />
+											<p className="font-medium">{product.title}</p>
+										</div>
+									</Link>
+								))}
+							</div>
+						</>}
 				</div>
 				<DrawerFooter className='sr-only'>
 					<Button>Submit</Button>
