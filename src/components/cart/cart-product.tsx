@@ -12,8 +12,10 @@ export default function CartProduct({ ...cartProduct }: CartProductType) {
     const [isRemoveAlertDialogOpen, setIsRemoveAlertDialogOpen] = useState(false);
 
     return (
-        <div className='flex gap-3 py-2'>
-            <img src={cartProduct.image} alt={cartProduct.title} className='size-20 my-auto object-contain' />
+        <div className='flex gap-3 py-6'>
+            <div className='bg-white my-auto'>
+                <img src={cartProduct.image} alt={cartProduct.title} className='size-20 object-contain' />
+            </div>
 
             <div className='flex-1 space-y-1'>
                 <p className='font-semibold'>{cartProduct.title}</p>

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger, } from "@/components/ui/drawer";
 import { useAppSelector } from '@/lib/hooks';
+import Link from 'next/link';
 
 type CartDrawerProps = {
     isOpen: boolean
@@ -33,7 +34,14 @@ export default function CartDrawer({ isOpen, setIsOpen }: CartDrawerProps) {
                 </div>
 
                 <DrawerFooter>
-                    <Button variant='outline'>More results</Button>
+                    <Button
+                        variant='outline'
+                        className='border-accent'
+                        asChild
+                        onClick={() => setIsOpen(!isOpen)}
+                    >
+                        <Link href='/cart'>View cart</Link>
+                    </Button>
                     <Button variant='default'>Checkout</Button>
                 </DrawerFooter>
             </DrawerContent>
