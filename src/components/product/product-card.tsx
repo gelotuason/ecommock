@@ -1,28 +1,28 @@
 'use client';
 
-import ProductQuickView from "@/components/product/product-quickview";
 import ProductRating from "@/components/product/product-rating";
+import { useRouter, usePathname } from "next/navigation";
 import { ShoppingCart, Heart, Search, X } from "lucide-react";
 import { Product } from "@/lib/types";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { addToCart } from "@/lib/features/cart/cartSlice";
 import { addToWishlist, removeFromWishlist } from "@/lib/features/wishlist/wishlistSlice";
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
 
 export default function ProductCard({ product }: { product: Product }) {
     const wishlists = useAppSelector(state => state.wishlistReducer.products);
     const dispatch = useAppDispatch();
 
-    const [productDetailDialog, toggleProductDetailDialog] = useState(false);
-    const [isAddedToWishlist, setIsAddedToWishlist] = useState(false);
-    const [wishlistBtnTooltip, setWishlistBtnTooltip] = useState('');
-
     const pathname = usePathname();
     const router = useRouter();
 
     const existingInWishlist = wishlists.find(wishlist => wishlist.id === product.id);
+    const isAddedToWishlist = existingInWishlist !== undefined;
+
+    const wishlistBtnTooltip = useMemo(() => {
+        if (!isAddedToWishlist) return 'Add to wishlist';
+        return pathname !== '/wishlist' ? 'Browse wishlist' : 'Remove from wishlist';
+    }, [isAddedToWishlist, pathname]);
 
     const handleWishlist = () => {
         if (!isAddedToWishlist) {
@@ -33,21 +33,6 @@ export default function ProductCard({ product }: { product: Product }) {
             router.push('/wishlist');
         }
     }
-
-    useEffect(() => {
-        if (existingInWishlist !== undefined) {
-            setIsAddedToWishlist(true);
-
-            if (pathname !== '/wishlist') {
-                setWishlistBtnTooltip('Browse wishlist');
-            } else {
-                setWishlistBtnTooltip('Remove from wishlist');
-            }
-        } else {
-            setIsAddedToWishlist(false);
-            setWishlistBtnTooltip('Add to wishlist');
-        }
-    }, [existingInWishlist, pathname]);
 
     return (
         <div>
@@ -78,7 +63,8 @@ export default function ProductCard({ product }: { product: Product }) {
                         <button
                             title="Quick view"
                             className="p-1 hover:bg-black hover:rounded-e hover:text-white transition-all duration-300"
-                            onClick={() => toggleProductDetailDialog(true)}
+                            // onClick={() => toggleProductDetailDialog(true)}
+                            onClick={() => router.push(`/product/${product.id}`)}
                         >
                             <Search size={20} strokeWidth={1} />
                         </button>
@@ -91,8 +77,6 @@ export default function ProductCard({ product }: { product: Product }) {
                 <ProductRating className="text-accent flex" productRating={product.rating.rate} />
                 <p className="font-medium">{product.title}</p>
             </div>
-
-            <ProductQuickView open={productDetailDialog} onOpenChange={toggleProductDetailDialog} selectedProduct={product} />
         </div>
     )
 }
