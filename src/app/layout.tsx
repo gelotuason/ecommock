@@ -30,10 +30,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  auth
+  auth,
+  product
 }: {
   children: React.ReactNode
   auth: React.ReactNode
+  product: React.ReactNode
 }) {
   return (
     <html lang="en" className="h-full">
@@ -45,6 +47,7 @@ export default function RootLayout({
             <Nav />
             {children}
             {auth}
+            {product}
             <Footer />
             <Toaster />
           </ToastWrapper>
