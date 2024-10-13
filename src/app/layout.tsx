@@ -30,9 +30,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+  auth
+}: {
+  children: React.ReactNode
+  auth: React.ReactNode
+}) {
   return (
     <html lang="en" className="h-full">
       <body
@@ -42,6 +44,7 @@ export default function RootLayout({
           <ToastWrapper>
             <Nav />
             {children}
+            {auth}
             <Footer />
             <Toaster />
           </ToastWrapper>

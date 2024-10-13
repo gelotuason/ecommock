@@ -5,6 +5,7 @@ import { X, ChevronRight, Heart, User, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerClose, DrawerTrigger } from "@/components/ui/drawer";
 import { useAppSelector } from "@/lib/hooks";
+import { useRouter } from "next/navigation";
 
 type MenuDrawerProps = {
     isOpen: boolean
@@ -13,6 +14,7 @@ type MenuDrawerProps = {
 
 export default function MenuDrawer({ isOpen, setIsOpen }: MenuDrawerProps) {
     const { isAuthenticated } = useAppSelector(state => state.authReducer.user);
+    const router = useRouter();
 
     return (
         <Drawer open={isOpen} onOpenChange={setIsOpen} direction='left'>
@@ -24,7 +26,7 @@ export default function MenuDrawer({ isOpen, setIsOpen }: MenuDrawerProps) {
                         <X strokeWidth={1} />
                     </DrawerClose>
                 </DrawerHeader>
-                <DrawerDescription className='sr-only'></DrawerDescription>
+                <DrawerDescription className='sr-only' />
 
                 <div className="flex flex-col gap-8 px-6">
                     <div>
