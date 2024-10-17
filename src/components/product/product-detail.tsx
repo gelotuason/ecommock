@@ -49,9 +49,9 @@ export default function ProductDetail({ selectedProduct, className }: ProductDet
                 </div>
 
                 <div className={`${className?.px} space-y-2 text-lg text-accent`}>
-                    <p className="text-black">${selectedProduct.price}</p>
-                    <ProductRating className="flex" productRating={selectedProduct.rating.rate} />
                     <p className="text-black font-medium">{selectedProduct.title}</p>
+                    <ProductRating className="flex" productRating={selectedProduct.rating.rate} />
+                    <p className="text-black">${selectedProduct.price}</p>
                     <p className="text-accent text-base">{selectedProduct.description}</p>
                 </div>
             </div>

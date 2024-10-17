@@ -57,7 +57,7 @@ export default function Hero() {
                             backgroundImage: `url('${category.imgSrc}')`,
                             height: '500px',
                             backgroundSize: 'cover',
-                            backgroundPosition: 'top 0 left -100px',
+                            backgroundPosition: 'center',
                             backgroundRepeat: 'no-repeat',
                             display: 'flex',
                             flexDirection: 'column',
